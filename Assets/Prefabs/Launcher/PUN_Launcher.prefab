@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4613806457403329247}
   - component: {fileID: 4613806457403329244}
   m_Layer: 0
-  m_Name: PUNManager
+  m_Name: PUN_Launcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

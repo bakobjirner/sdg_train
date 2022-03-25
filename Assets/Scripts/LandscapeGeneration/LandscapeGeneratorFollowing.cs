@@ -7,6 +7,7 @@ public class LandscapeGeneratorFollowing : MonoBehaviour
 {
 
     Vector3[] vertices;
+   
     int[] triangles;
     Mesh mesh;
     MeshFilter meshFilter;
@@ -42,6 +43,7 @@ public class LandscapeGeneratorFollowing : MonoBehaviour
         transform.position = objectToFollow.position;
         ApplyNoise();
         mesh.vertices = vertices;
+       
         mesh.RecalculateNormals();
     }
 
@@ -51,6 +53,7 @@ public class LandscapeGeneratorFollowing : MonoBehaviour
     {
 
         vertices = new Vector3[(worldResolution + 1)* (worldResolution + 1)];
+        
         //set verticePositions
         int index = 0;
         for(int x = 0; x<= worldResolution; x++)
@@ -59,6 +62,7 @@ public class LandscapeGeneratorFollowing : MonoBehaviour
             {
                 float gridscale = worldDimension / worldResolution;
                 vertices[index] = new Vector3(x*gridscale-0.5f*worldDimension, 0, z*gridscale - 0.5f * worldDimension);
+               
                 index++;
                 
             }
@@ -113,4 +117,5 @@ public class LandscapeGeneratorFollowing : MonoBehaviour
         }
     }
 
+   
 }

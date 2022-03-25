@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
-public class LandscapeGenerator : MonoBehaviour
+public class LandscapeGeneratorScrolling : MonoBehaviour
 {
 
     Vector3[] vertices;

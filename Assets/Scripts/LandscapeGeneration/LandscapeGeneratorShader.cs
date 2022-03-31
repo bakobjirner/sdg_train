@@ -11,31 +11,32 @@ public class LandscapeGeneratorShader : MonoBehaviour
     Mesh mesh;
     MeshFilter meshFilter;
     //the size of the world in each direction
-    public int worldDimension = 10;
+    public float worldDimension = 10;
     //the resolution of the world
     public int worldResolution = 10;
+    public Material material;
+    public float scrollSpeed = 1;
+    public float hillSize = 1;
+    public float noiseZoom = 1;
 
-
-    //Object to follow
-    public Transform objectToFollow;
-
-    // Start is called before the first frame update
-    void Start()
+   
+    private void setValues()
     {
         meshFilter = this.GetComponent<MeshFilter>();
         mesh = new Mesh();
         mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         meshFilter.mesh = mesh;
-
         CreatePlane();
         CreateTriangles();
         UpdateMesh();
+        material.SetFloat("_scrollSpeed", scrollSpeed);
+        material.SetFloat("_hillSize", hillSize);
+        material.SetFloat("_noiseZoom", noiseZoom);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnValidate()
     {
-        //transform.position = new Vector3(objectToFollow.position.x,0,objectToFollow.position.z);
+        setValues();
     }
 
 

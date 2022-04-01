@@ -19,7 +19,6 @@ public class LandscapeGeneratorShader : MonoBehaviour
     public float hillSize = 1;
     public float noiseZoom = 1;
 
-   
     private void setValues()
     {
         meshFilter = this.GetComponent<MeshFilter>();
@@ -33,6 +32,9 @@ public class LandscapeGeneratorShader : MonoBehaviour
         material.SetFloat("_hillSize", hillSize);
         material.SetFloat("_noiseZoom", noiseZoom);
     }
+
+   
+
 
     private void OnValidate()
     {

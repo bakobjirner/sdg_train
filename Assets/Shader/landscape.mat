@@ -108,15 +108,27 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _hillSize: 4.6
-    - _noiseZoom: 15
-    - _scrollSpeed: 0.01
+    - _colorNoiseFactor: 17.78
+    - _hillSize: 4
+    - _mountainAmount: 0.141
+    - _mountainMax: 1
+    - _mountainMin: 0
+    - _mountainNoiseFactor: 15.42
+    - _mountainSize: 49
+    - _noiseZoom: 28.89
+    - _scrollSpeed: 0.1
+    - _trenchSteepness: 0.04
+    - _trenchSteepnessMountain: 0.07
+    - _trenchWidth: 0.024
+    - _trenchWidthMountain: 0.108
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _baseColor: {r: 0.2072372, g: 0.5566038, b: 0.06563723, a: 0}
+    - _mountainColor: {r: 0.3584906, g: 0.2520209, b: 0.1877003, a: 0}
+    - _secondColor: {r: 0.3703929, g: 0.5, b: 0.115566, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3948654870721856674
 MonoBehaviour:

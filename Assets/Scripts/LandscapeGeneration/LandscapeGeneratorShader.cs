@@ -97,9 +97,9 @@ public class LandscapeGeneratorShader : MonoBehaviour
         mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         MeshFilter meshFilter = tracks.GetComponent<MeshFilter>();
         meshFilter.mesh = mesh;
-        vertices = PlaneGenerator.GetVertices(6, trackResolution, trackWidth, worldDimension);
-        uvs = PlaneGenerator.GetUvs(vertices, 6, trackResolution);
-        triangles = PlaneGenerator.GetTriangles(6, trackResolution);
+        vertices = PlaneGenerator.GetVertices(8, trackResolution, trackWidth, worldDimension);
+        uvs = PlaneGenerator.GetUvs(vertices, 8, trackResolution);
+        triangles = PlaneGenerator.GetTriangles(8, trackResolution);
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;

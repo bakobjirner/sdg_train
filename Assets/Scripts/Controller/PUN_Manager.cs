@@ -18,14 +18,14 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
         Instance = this;
         RespawnLocation = GameObject.FindGameObjectWithTag("RespawnLocation");
         if(PlayerController.LocalPlayerInstance == null) {
-            this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, this.RespawnLocation.transform.position + Vector3.up * 5, Quaternion.identity);
+            this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, this.RespawnLocation.transform.position, Quaternion.identity);
         }
     }
 
     public void RespawnPlayer(String team) {
         RespawnLocation = GameObject.FindGameObjectWithTag("RespawnLocation");
         PhotonNetwork.Destroy(PlayerController.LocalPlayerInstance);
-        this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, this.RespawnLocation.transform.position + Vector3.up * 5, Quaternion.identity);
+        this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, this.RespawnLocation.transform.position, Quaternion.identity);
     }
 
     public override void OnLeftRoom()

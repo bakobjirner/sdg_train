@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviourPun
     public Camera PlayerCamera;
     // public float Health = 1.0f;
     public float speed = 1.0f;
+    public float shiftSpeed = 1.5f;
     
     public int ActorNumber;
 
@@ -75,6 +76,13 @@ public class PlayerController : MonoBehaviourPun
         {
             direction += transform.right;
         }
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            direction *= shiftSpeed;
+        }
+        if (Input.GetKey(KeyCode.Space)) {
+            direction += transform.up*1.5f;
+        }
         // toggle menu
         if (Input.GetKeyDown(KeyCode.Escape)) {
             if (Cursor.lockState == CursorLockMode.Locked) {
@@ -99,6 +107,16 @@ public class PlayerController : MonoBehaviourPun
             direction * speed * Time.deltaTime
         );
     }
+
+    private bool isGrounded() {
+        if (Physics.Raycast(transform.position,
+            Vector3.down,
+            this.GetComponent<MeshFilter>().mesh.bounds.size.y/2+0.01f)) {
+                return true;
+            }
+        return false;
+    }
+
     void OnCollisionEnter(Collision collision) {
         if (!photonView.IsMine) {
             return;

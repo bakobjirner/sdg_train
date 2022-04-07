@@ -157,6 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerCamera: {fileID: 9197785995611745919}
   speed: 5
+  shiftSpeed: 2
   ActorNumber: 0
 --- !u!54 &6811027369499314343
 Rigidbody:

@@ -114,6 +114,8 @@ public class LandscapeGeneratorShader : MonoBehaviour
 
     private void SetRails()
     {
+        // vertices and triangles get generated for each rail and then combined to one mesh
+
         Vector3[] verticesCombined;
         Vector3[] verticesRight;
         Vector3[] verticesLeft;
@@ -127,9 +129,9 @@ public class LandscapeGeneratorShader : MonoBehaviour
         mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         MeshFilter meshFilter = rails.GetComponent<MeshFilter>();
         meshFilter.mesh = mesh;
-        verticesRight = ProceduralCube.GetVertices(railWidth, railHeight, worldDimension, new Vector3(trackWidth*railDistance/2, tieHeight, -worldDimension/2));
+        verticesRight = ProceduralCube.GetVertices(railWidth, railHeight, worldDimension, new Vector3(trackWidth*railDistance/2-railWidth/2, tieHeight, -worldDimension/2));
         trianglesRight = ProceduralCube.GetTriangles(0);
-        verticesLeft = ProceduralCube.GetVertices(railWidth, railHeight, worldDimension, new Vector3(-trackWidth * railDistance / 2, tieHeight, -worldDimension / 2));
+        verticesLeft = ProceduralCube.GetVertices(railWidth, railHeight, worldDimension, new Vector3(-trackWidth * railDistance / 2 + railWidth / 2, tieHeight, -worldDimension / 2));
         trianglesLeft = ProceduralCube.GetTriangles(8);
         uvLeft = ProceduralCube.GetUVs();
         uvRight = uvLeft;

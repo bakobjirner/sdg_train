@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCamera: {fileID: 9197785995611745919}
+  Health: 1
   speed: 5
   shiftSpeed: 2
   ActorNumber: 0

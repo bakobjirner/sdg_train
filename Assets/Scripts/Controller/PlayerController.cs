@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviourPun
     public static GameObject LocalPlayerInstance;
 
     public Camera PlayerCamera;
-    // public float Health = 1.0f;
+    public float Health = 1.0f;
     public float speed = 1.0f;
     public float shiftSpeed = 1.5f;
     

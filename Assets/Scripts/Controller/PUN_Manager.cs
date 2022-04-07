@@ -9,16 +9,24 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
 {
     public static PUN_Manager Instance;
 
+    // prefabs
+    public GameObject Moderator;
     public GameObject Player;
-    private GameObject RespawnLocation;
+    
+    // instances
+    private GameObject ModeratorInstance;
+    public GameObject PlayerInstance;
 
-    GameObject PlayerInstance;
+    private GameObject RespawnLocation;
 
     void Start() {
         Instance = this;
         RespawnLocation = GameObject.FindGameObjectWithTag("RespawnLocation");
         if(PlayerController.LocalPlayerInstance == null) {
             this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, this.RespawnLocation.transform.position, Quaternion.identity);
+        }
+        if (PhotonNetwork.IsMasterClient) {
+            this.ModeratorInstance = PhotonNetwork.Instantiate(this.Moderator.name, new Vector3(0,0,0), Quaternion.identity);
         }
     }
 

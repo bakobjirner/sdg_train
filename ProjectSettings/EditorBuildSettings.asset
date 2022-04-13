@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Launcher.unity
     guid: c9a1067bf19e5db49992a4cb140be0a8
   - enabled: 1
+    path: Assets/Scenes/LandscapeGeneration.unity
+    guid: 251e9cde79bacc846b8d17a9263dacfb
+  - enabled: 0
     path: Assets/Scenes/MultiplayerSample.unity
     guid: c6c0f1edf47f1e9479da6945318c1901
   m_configObjects: {}

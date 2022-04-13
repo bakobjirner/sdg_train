@@ -68,8 +68,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("OnJoinedRoom() called by PUN. Now this client is in a room.");
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
         {
-            Debug.Log("load MultiplayerSample ");
-            PhotonNetwork.LoadLevel("MultiplayerSample");
+            Debug.Log("load LandscapeGeneration");
+            PhotonNetwork.LoadLevel("LandscapeGeneration");
         }
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3506341561978738219}
   - component: {fileID: 1679262511137727201}
   - component: {fileID: 1081198535486014271}
+  - component: {fileID: 5299700834275761681}
   m_Layer: 0
   m_Name: locomotive
   m_TagString: Untagged
@@ -112,6 +113,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!64 &5299700834275761681
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886378082134459188}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2281872054760701177, guid: 969999b1eb8ca7f48bfa5793ba96903c, type: 3}
 --- !u!1 &1561516406130793494
 GameObject:
   m_ObjectHideFlags: 0

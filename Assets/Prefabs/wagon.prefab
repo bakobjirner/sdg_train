@@ -1921,6 +1921,7 @@ GameObject:
   - component: {fileID: 5210117939628909398}
   - component: {fileID: 8046518427124783004}
   - component: {fileID: 2769458843944926025}
+  - component: {fileID: 5445798640029157817}
   m_Layer: 0
   m_Name: wagon
   m_TagString: Untagged
@@ -2041,6 +2042,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!64 &5445798640029157817
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8406537773590771273}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1434604654925876401, guid: 8537e82ec40aaaa4295f126eeb0b5c58, type: 3}
 --- !u!1 &8718251756772247994
 GameObject:
   m_ObjectHideFlags: 0

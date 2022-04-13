@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 2627917020935873359}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -61.306, y: 48.795593, z: 52.386208}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8222080066899859537}
@@ -156,7 +156,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCamera: {fileID: 9197785995611745919}
+  Health: 1
   speed: 5
+  shiftSpeed: 2
   ActorNumber: 0
 --- !u!54 &6811027369499314343
 Rigidbody:
@@ -201,8 +203,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5476547213653882501}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.4}
-  m_LocalScale: {x: 0.75, y: 0.2, z: 0.2}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.296}
+  m_LocalScale: {x: 0.85, y: 0.2, z: 0.39}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3747662543409045757}

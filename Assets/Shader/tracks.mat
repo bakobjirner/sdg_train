@@ -104,8 +104,8 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _numberOfTies: 1000
-    - _speed: 30
+    - _numberOfTies: 500
+    - _speed: 35
     - _tieDistance: 5
     - _tieHeight: 0.2
     m_Colors:

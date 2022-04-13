@@ -6,19 +6,15 @@ using Photon.Realtime;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
-    [Tooltip("The Ui Panel to let the user enter name, connect and play")]
-    [SerializeField]
-    private GameObject controlPanel;
-    [Tooltip("The UI Label to inform the user that the connection is in progress")]
-    [SerializeField]
-    private GameObject progressLabel;
-
     bool isConnecting;
 
     string gameVersion = "1";
 
     [SerializeField]
     private byte maxPlayersPerRoom = 16;
+
+    [SerializeField]
+    private MainMenuUIController ui;
 
     void Awake()
     {
@@ -27,17 +23,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    void Start()
-    {
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(true);
-    }
-
     public void Connect()
     {
-        progressLabel.SetActive(true);
-        controlPanel.SetActive(false);
-
         if (PhotonNetwork.IsConnected)
         {
             // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
@@ -64,9 +51,8 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(true);
         isConnecting = false;
+        ui.ConnectingFailed();
         Debug.LogWarningFormat("OnDisconnected() called by PUN with reason {0}", cause);
     }
 

@@ -9,10 +9,15 @@ public class PlayerController : MonoBehaviourPun
 {
     public static GameObject LocalPlayerInstance;
 
+    public GameObject uiPrefab;
+    public GameObject uiGameObject;
     public Camera PlayerCamera;
-    public float Health = 1.0f;
+    public float health = 1.0f;
+    public float stamina = 1.0f;
+    private bool canSprint = true;
     public float speed = 1.0f;
     public float shiftSpeed = 1.5f;
+   
     
     public int ActorNumber;
 
@@ -22,6 +27,7 @@ public class PlayerController : MonoBehaviourPun
     void Awake() {
         if (photonView.IsMine) {
             PlayerController.LocalPlayerInstance = this.gameObject;
+            uiGameObject = Instantiate(uiPrefab);
         }
         DontDestroyOnLoad(this.gameObject);
     }
@@ -34,6 +40,7 @@ public class PlayerController : MonoBehaviourPun
         if (photonView.IsMine == false) {
             PlayerCamera.enabled = false;
             PlayerCamera.GetComponent<AudioListener>().enabled = false;
+            SetHealthAndStaminaToUI();
         } else {
             ActorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
             Debug.Log("init Player, i am ActorNumber" + ActorNumber);
@@ -50,11 +57,14 @@ public class PlayerController : MonoBehaviourPun
         GetInput();
     }
 
+    // Gets called every 0.02 seconds (Time.fixedDeltaTime)
     void FixedUpdate() {
         if (!photonView.IsMine) {
             return;
         }
         ExecMovement();
+        ConsumeOrRefillStamina();
+        SetHealthAndStaminaToUI();
     }
 
     void GetInput()
@@ -76,7 +86,7 @@ public class PlayerController : MonoBehaviourPun
         {
             direction += transform.right;
         }
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && canSprint)
         {
             direction *= shiftSpeed;
         }
@@ -108,6 +118,31 @@ public class PlayerController : MonoBehaviourPun
         );
     }
 
+    void ConsumeOrRefillStamina()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && canSprint)
+        {
+            stamina -= Time.fixedDeltaTime / 2f;
+            if(stamina <= 0)
+            {
+                canSprint = false;
+                stamina = 0f;
+            }
+        } 
+        else if(stamina < 1.0f)
+        {
+            stamina += Time.fixedDeltaTime / 3f;
+            if(stamina > 0.2f)
+            {
+                canSprint = true;
+            }
+            if(stamina > 1.0f)
+            {
+                stamina = 1.0f;
+            }
+        }
+    }
+
     private bool isGrounded() {
         if (Physics.Raycast(transform.position,
             Vector3.down,
@@ -115,6 +150,13 @@ public class PlayerController : MonoBehaviourPun
                 return true;
             }
         return false;
+    }
+
+    private void SetHealthAndStaminaToUI()
+    {
+        GameUI ui = uiGameObject.GetComponent<GameUI>();
+        ui.setHealth(health);
+        ui.setStamina(stamina);
     }
 
     void OnCollisionEnter(Collision collision) {

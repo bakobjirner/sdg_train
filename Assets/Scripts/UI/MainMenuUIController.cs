@@ -79,7 +79,7 @@ public class MainMenuUIController : MonoBehaviour
         }
         else if (joinButton.text == "Joining...")
         {
-            joinButton.text = "Joining.";
+            joinButton.text = "Joining";
         }
     }
 }

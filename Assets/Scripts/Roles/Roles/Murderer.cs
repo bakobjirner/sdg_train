@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Murder : Role
 {
-    public Murder() : base("murder")
+    public Murder() : base("Murderer")
     {
 
     }

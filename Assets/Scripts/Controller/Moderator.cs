@@ -7,7 +7,10 @@ using Photon.Pun;
 
 public class Moderator : MonoBehaviourPunCallbacks
 {
-    public GameObject[] Players;
+    public PlayerController[] Players;
+    public int murderers = 0;
+    public int passengers = 0;
+    public int security = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -16,21 +19,59 @@ public class Moderator : MonoBehaviourPunCallbacks
             Debug.Log("Moderator: You are not the MasterClient.");
         } else {
             Debug.Log("Moderator: You are the MasterClient!");
-            getAllPlayers();
         }
+        getAllPlayers();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (PhotonNetwork.IsMasterClient) {
-
+    // call this whenever player count changes (game start, connect, disconnect)
+    // track up to date players, their roles and interesting stats
+    public void getAllPlayers() {
+        GameObject[] allObjects = GameObject.FindGameObjectsWithTag("Player");
+        Players = new PlayerController[allObjects.Length];
+        Debug.Log("allObjects.Length "+ allObjects.Length);
+        for (int i = 0; i < allObjects.Length; i++) {
+            Players[i] = allObjects[i].GetComponent<PlayerController>();
         }
-    }
-
-    // call this when game starts and players disconnect or reconnect
-    void getAllPlayers() {
-        Players = GameObject.FindGameObjectsWithTag("Player");
         Debug.Log("getAllPlayers: "+Players.Length);
+        for (int i=0; i < Players.Length; i++) {
+            if (Players[i].role != null) {
+                switch (Players[i].role.getRole()) {
+                    case "Murderer":
+                        murderers++;
+                        break;
+                    case "Security":
+                        security++;
+                        break;
+                    case "Passenger":
+                        passengers++;
+                        break;
+                }
+            }
+        }
+    }
+
+    public void setRoles() {
+        // first shuffle player order
+        for (int i = 0; i < Players.Length; i++) {
+            PlayerController temp = Players[i];
+            int rIndex = Random.Range(0, Players.Length);
+            Players[i] = Players[rIndex];
+            Players[rIndex] = temp;
+        }
+        // then assign roles where currently unset
+        for (int i = 0; i < Players.Length; i++) {
+            if (Players[i].role == null) {
+                if (murderers <= 0) {
+                    Players[i].SetRole("Murderer");
+                    murderers++;
+                } else if (security <= 0) {
+                    Players[i].SetRole("Security");
+                    security++;
+                } else {
+                    Players[i].SetRole("Passenger");
+                    passengers++;
+                }
+            }
+        }
     }
 }

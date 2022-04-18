@@ -14,7 +14,7 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
     public GameObject Player;
     
     // instances
-    private GameObject ModeratorInstance;
+    private Moderator ModeratorInstance;
     public GameObject PlayerInstance;
 
     private GameObject RespawnLocation;
@@ -25,9 +25,7 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
         if(PlayerController.LocalPlayerInstance == null) {
             this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, this.RespawnLocation.transform.position, Quaternion.identity);
         }
-        if (PhotonNetwork.IsMasterClient) {
-            this.ModeratorInstance = PhotonNetwork.Instantiate(this.Moderator.name, new Vector3(0,0,0), Quaternion.identity);
-        }
+        this.ModeratorInstance = PhotonNetwork.Instantiate(this.Moderator.name, new Vector3(0,0,0), Quaternion.identity).GetComponent<Moderator>();
     }
 
     public void RespawnPlayer(String team) {
@@ -59,18 +57,20 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player other)
     {
         Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-        }
+        StartCoroutine(updateModerators());
     }
 
     public override void OnPlayerLeftRoom(Player other)
     {
+        ModeratorInstance.getAllPlayers();
         Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+    }
+
+    public IEnumerator updateModerators() {
+        yield return new WaitForSeconds(5);
+        this.ModeratorInstance.getAllPlayers();
+        if (PhotonNetwork.IsMasterClient) {
+            this.ModeratorInstance.setRoles();
         }
     }
 }

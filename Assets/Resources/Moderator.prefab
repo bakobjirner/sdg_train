@@ -46,6 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Players: []
+  murderers: 0
+  passengers: 0
+  security: 0
 --- !u!114 &3976357922952123800
 MonoBehaviour:
   m_ObjectHideFlags: 0

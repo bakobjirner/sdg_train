@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviourPun
 {
     public static GameObject LocalPlayerInstance;
 
+    public Role role;
+
     public GameObject uiPrefab;
     public GameObject uiGameObject;
     public Camera PlayerCamera;
@@ -18,7 +20,6 @@ public class PlayerController : MonoBehaviourPun
     public float speed = 1.0f;
     public float shiftSpeed = 1.5f;
    
-    
     public int ActorNumber;
 
     Vector3 direction;
@@ -32,7 +33,10 @@ public class PlayerController : MonoBehaviourPun
         DontDestroyOnLoad(this.gameObject);
     }
 
-
+    public void SetRole(string name) {
+        role = new Role(name);
+        Debug.Log("Player " + ActorNumber + " is now now Role " + role.getRole());
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -118,6 +122,8 @@ public class PlayerController : MonoBehaviourPun
         );
     }
 
+    // we should prefer to keep all Input polling inside 'Update' and not 'FixedUpdate' (which this is)
+    // so that no GetKeys are skipped and Keys are read consistently. but it probably works fine here :) 
     void ConsumeOrRefillStamina()
     {
         if (Input.GetKey(KeyCode.LeftShift) && canSprint)

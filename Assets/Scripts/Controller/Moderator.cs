@@ -51,6 +51,9 @@ public class Moderator : MonoBehaviourPunCallbacks
     }
 
     public void setRoles() {
+        if (Players.Length <= 1) {
+            return;
+        }
         // first shuffle player order
         for (int i = 0; i < Players.Length; i++) {
             PlayerController temp = Players[i];

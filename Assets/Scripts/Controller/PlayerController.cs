@@ -28,6 +28,9 @@ public class PlayerController : MonoBehaviourPun
     void Awake() {
         if (photonView.IsMine) {
             PlayerController.LocalPlayerInstance = this.gameObject;
+            var Renderer = this.gameObject.GetComponent<Renderer>();
+            Color newColor = new Color(Random.Range(0.0f, 1.0f),Random.Range(0.0f, 1.0f),Random.Range(0.0f, 1.0f));
+            Renderer.material.SetColor("_Color", newColor);
             uiGameObject = Instantiate(uiPrefab);
         }
         DontDestroyOnLoad(this.gameObject);

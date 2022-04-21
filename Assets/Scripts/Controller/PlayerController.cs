@@ -166,6 +166,9 @@ public class PlayerController : MonoBehaviourPun
         GameUI ui = uiGameObject.GetComponent<GameUI>();
         ui.setHealth(health);
         ui.setStamina(stamina);
+        if(role != null) {
+            ui.setRole(role.getRole());
+        }
     }
 
     void OnCollisionEnter(Collision collision) {

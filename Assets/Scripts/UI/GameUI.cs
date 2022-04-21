@@ -5,27 +5,34 @@ using UnityEngine.UIElements;
 
 public class GameUI : MonoBehaviour
 {
-    private VisualElement healthBar;
-    private Label healthText;
-    private VisualElement staminaBar;
+    private Label Role;
+    private VisualElement HealthBar;
+    private Label HealthText;
+    private VisualElement StaminaBar;
 
     // Start is called before the first frame update
     void Start()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
-        healthBar = root.Q<VisualElement>("HealthBar");
-        healthText = root.Q<Label>("HealthText");
-        staminaBar = root.Q<VisualElement>("StaminaBar");
+        Role = root.Q<Label>("Role");
+        HealthBar = root.Q<VisualElement>("HealthBar");
+        HealthText = root.Q<Label>("HealthText");
+        StaminaBar = root.Q<VisualElement>("StaminaBar");
     }
 
     public void setHealth(float health)
     {
-        healthBar.style.width = Length.Percent(health * 100f);
-        healthText.text = (health * 100f).ToString();
+        HealthBar.style.width = Length.Percent(health * 100f);
+        HealthText.text = (health * 100f).ToString();
     }
 
     public void setStamina(float stamina)
     {
-        staminaBar.style.width = Length.Percent(stamina * 100f);
+        StaminaBar.style.width = Length.Percent(stamina * 100f);
+    }
+
+    public void setRole(string description)
+    {
+        Role.text = description;
     }
 }

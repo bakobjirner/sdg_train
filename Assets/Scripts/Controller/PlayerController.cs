@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviourPun
     private bool canSprint = true;
     public float speed = 1.0f;
     public float shiftSpeed = 1.5f;
+
+    public GameObject Flintlock;
    
     public int ActorNumber;
 
@@ -31,6 +33,11 @@ public class PlayerController : MonoBehaviourPun
             var Renderer = this.gameObject.GetComponent<Renderer>();
             Color newColor = new Color(Random.Range(0.0f, 1.0f),Random.Range(0.0f, 1.0f),Random.Range(0.0f, 1.0f));
             Renderer.material.SetColor("_Color", newColor);
+            int LayerEquipment_Player = LayerMask.NameToLayer("Equipment_Player");
+            Flintlock.layer = LayerEquipment_Player;
+            foreach(Transform el in Flintlock.transform) {
+                el.gameObject.layer = LayerEquipment_Player;
+            }
             uiGameObject = Instantiate(uiPrefab);
         }
         DontDestroyOnLoad(this.gameObject);

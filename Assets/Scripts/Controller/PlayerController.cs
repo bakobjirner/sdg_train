@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviourPun
     public float speed = 1.0f;
     public float shiftSpeed = 1.5f;
 
-    public GameObject Flintlock;
+    public GameObject Equipment;
+    public GameObject Equipment_Overlay;
    
     public int ActorNumber;
 
@@ -33,11 +34,7 @@ public class PlayerController : MonoBehaviourPun
             var Renderer = this.gameObject.GetComponent<Renderer>();
             Color newColor = new Color(Random.Range(0.0f, 1.0f),Random.Range(0.0f, 1.0f),Random.Range(0.0f, 1.0f));
             Renderer.material.SetColor("_Color", newColor);
-            int LayerEquipment_Player = LayerMask.NameToLayer("Equipment_Player");
-            Flintlock.layer = LayerEquipment_Player;
-            foreach(Transform el in Flintlock.transform) {
-                el.gameObject.layer = LayerEquipment_Player;
-            }
+            updateEquipment();
             uiGameObject = Instantiate(uiPrefab);
         }
         DontDestroyOnLoad(this.gameObject);
@@ -170,7 +167,22 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
-    void OnCollisionEnter(Collision collision) {
+    private void updateEquipment() {
+        // set the players physical/observable equipment to a culled layer (dont clip weapons into environment)
+        int LayerEquipment_Player = LayerMask.NameToLayer("Equipment_Player");
+        Equipment.layer = LayerEquipment_Player;
+        foreach(Transform el in Equipment.transform) {
+            el.gameObject.layer = LayerEquipment_Player;
+        }
+        // set the overlay weapon to a non-culled layer (only show the overlay weapon to this player)
+        int LayerEquipment_Overlay_Player = LayerMask.NameToLayer("Equipment_Overlay_Player");
+        Equipment_Overlay.layer = LayerEquipment_Overlay_Player;
+        foreach(Transform el in Equipment_Overlay.transform) {
+            el.gameObject.layer = LayerEquipment_Overlay_Player;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision) {
         if (!photonView.IsMine) {
             return;
         }

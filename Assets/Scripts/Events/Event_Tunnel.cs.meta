@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 53f3963bca04f9046b4dd5e7f914c2fb
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Tunnel: {fileID: 8859718160339880859, guid: 60aa4c382d470eb41a2b5b342de13921, type: 3}
+  - SpawnLocation: {fileID: 3564370930696017803, guid: 5a15b04a70e96444dace14d60ce28406, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

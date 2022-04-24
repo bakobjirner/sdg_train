@@ -7,10 +7,15 @@ using Photon.Pun;
 
 public class Moderator : MonoBehaviourPunCallbacks
 {
+
     public PlayerController[] Players;
     public int murderers = 0;
     public int passengers = 0;
     public int security = 0;
+
+    public GameObject[] Active_Events;
+
+    public GameObject Event_Tunnel;
     
     // Start is called before the first frame update
     void Start()
@@ -21,6 +26,7 @@ public class Moderator : MonoBehaviourPunCallbacks
             Debug.Log("Moderator: You are the MasterClient!");
         }
         getAllPlayers();
+        fireEvent("Event_Tunnel");
     }
 
     // call this whenever player count changes (game start, connect, disconnect)
@@ -76,5 +82,17 @@ public class Moderator : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    public void fireEvent(string name) {
+        switch (name) {
+            case "Event_Tunnel":
+                // if the Event is pun ->
+                // PhotonNetwork.Instantiate()
+                GameObject newObject = Instantiate(Event_Tunnel);
+                newObject.tag = "Event";
+            break;
+        }
+        Active_Events = GameObject.FindGameObjectsWithTag("Event");
     }
 }

@@ -49,6 +49,8 @@ MonoBehaviour:
   murderers: 0
   passengers: 0
   security: 0
+  Active_Events: []
+  Event_Tunnel: {fileID: 7457841071928420223, guid: 524713cb47a71a94cb6e675fc35e13be, type: 3}
 --- !u!114 &3976357922952123800
 MonoBehaviour:
   m_ObjectHideFlags: 0

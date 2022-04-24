@@ -6,6 +6,7 @@ TagManager:
   tags:
   - RespawnLocation
   - Lobby
+  - Event
   layers:
   - Default
   - TransparentFX

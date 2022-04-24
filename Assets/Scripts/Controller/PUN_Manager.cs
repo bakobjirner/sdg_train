@@ -53,7 +53,9 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
         if (PlayerController.LocalPlayerInstance == null) {
             this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, this.RespawnLocation.transform.position, Quaternion.identity);
         }
-        this.ModeratorInstance = PhotonNetwork.Instantiate(this.Moderator.name, new Vector3(0,0,0), Quaternion.identity).GetComponent<Moderator>();
+        if (this.ModeratorInstance == null) {
+            this.ModeratorInstance = PhotonNetwork.Instantiate(this.Moderator.name, new Vector3(0,0,0), Quaternion.identity).GetComponent<Moderator>();
+        }
 
         // Disable Lobby Camera
         GameObject lobbyCam = lobbyGo.transform.GetChild(0).gameObject;

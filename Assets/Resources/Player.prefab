@@ -165,7 +165,8 @@ MonoBehaviour:
   stamina: 1
   speed: 5
   shiftSpeed: 2
-  Flintlock: {fileID: 4434882081074671492}
+  Equipment: {fileID: 4434882081074671492}
+  Equipment_Overlay: {fileID: 6892717984233464107}
   ActorNumber: 0
 --- !u!54 &6811027369499314343
 Rigidbody:
@@ -247,7 +248,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 128
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -731,5 +732,10 @@ PrefabInstance:
 --- !u!4 &6119277883528510353 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 961398813669065202, guid: 638a3d20fd825914e9ce13e300131be3, type: 3}
+  m_PrefabInstance: {fileID: 6465930949474712163}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6892717984233464107 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 440301132192570184, guid: 638a3d20fd825914e9ce13e300131be3, type: 3}
   m_PrefabInstance: {fileID: 6465930949474712163}
   m_PrefabAsset: {fileID: 0}

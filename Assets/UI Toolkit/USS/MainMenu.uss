@@ -28,7 +28,7 @@
     border-right-color: rgb(255, 255, 255);
     border-top-color: rgb(255, 255, 255);
     border-bottom-color: rgb(255, 255, 255);
-    cursor: url('project://database/Assets/UI%20Toolkit/UI%20Icons/cursor-text.png?fileID=2800000&guid=fce3c07811fbfbc4381001955c05b900&type=3#cursor-text');
+    cursor: url('project://database/Assets/UI%20Toolkit/UI%20Icons%20and%20Pictures/cursor-text.png?fileID=2800000&guid=fce3c07811fbfbc4381001955c05b900&type=3#cursor-text');
 }
 
 .sdg-train-button:hover {
@@ -41,6 +41,7 @@
     border-right-color: rgb(0, 77, 255);
     border-top-color: rgb(0, 77, 255);
     border-bottom-color: rgb(0, 77, 255);
+    cursor: url('project://database/Assets/UI%20Toolkit/UI%20Icons%20and%20Pictures/cursor-pointer.png?fileID=2800000&guid=f119e258a818b4c489391bfb5b69bb76&type=3#cursor-pointer');
 }
 
 .sdg-train-button {

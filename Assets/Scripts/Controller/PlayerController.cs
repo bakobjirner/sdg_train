@@ -107,14 +107,6 @@ public class PlayerController : MonoBehaviourPun
         if (Input.GetKey(KeyCode.Space)) {
             direction += transform.up*1.5f;
         }
-        // toggle menu
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            if (Cursor.lockState == CursorLockMode.Locked) {
-                Cursor.lockState = CursorLockMode.None;
-            } else {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-        }
         // Rotate Camera and Player
         if (Cursor.lockState == CursorLockMode.Locked) {
             rotationX += -Input.GetAxis("Mouse Y") * 3f;

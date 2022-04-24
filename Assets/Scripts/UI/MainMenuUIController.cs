@@ -19,8 +19,10 @@ public class MainMenuUIController : MonoBehaviour
         joinButton = root.Q<Button>("joinButton");
         nameInput = root.Q<TextField>("nameInput");
         errorMessage = root.Q<Label>("errorMessage");
-        joinButton.clicked += JoinButtonPressed;
-
+        if(joinButton != null)
+        {
+            joinButton.clicked += JoinButtonPressed;
+        }
         string defaultName = string.Empty;
         if (PlayerPrefs.HasKey(playerNamePrefKey))
         {

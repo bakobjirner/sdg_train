@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Photon.Pun;
 
-public class PlayerController : MonoBehaviourPun
+public class PlayerController : MonoBehaviourPun, IPunObservable
 {
     public static GameObject LocalPlayerInstance;
 
@@ -24,16 +24,19 @@ public class PlayerController : MonoBehaviourPun
     public GameObject Equipment_Overlay;
    
     public int ActorNumber;
+    private Color[] colors = { Color.red, Color.green, Color.blue, Color.cyan, Color.yellow, Color.magenta };
+    private int myColor = 0;
 
-    Vector3 direction;
+    Vector3 direction;  
     float rotationX;
 
     void Awake() {
         if (photonView.IsMine) {
             PlayerController.LocalPlayerInstance = this.gameObject;
-            var Renderer = this.gameObject.GetComponent<Renderer>();
-            Color newColor = new Color(Random.Range(0.0f, 1.0f),Random.Range(0.0f, 1.0f),Random.Range(0.0f, 1.0f));
-            Renderer.material.SetColor("_Color", newColor);
+            Renderer renderer = this.gameObject.GetComponent<Renderer>();
+            myColor = Random.Range(0, colors.Length - 1);
+            Color newColor = colors[myColor];
+            renderer.material.SetColor("_Color", newColor);
             updateEquipment();
             uiGameObject = Instantiate(uiPrefab);
         }
@@ -159,11 +162,14 @@ public class PlayerController : MonoBehaviourPun
 
     private void SetHealthAndStaminaToUI()
     {
+        if (photonView.IsMine)
+        {
         GameUI ui = uiGameObject.GetComponent<GameUI>();
         ui.setHealth(health);
         ui.setStamina(stamina);
         if(role != null) {
             ui.setRole(role.getRole());
+        }
         }
     }
 
@@ -194,5 +200,20 @@ public class PlayerController : MonoBehaviourPun
             return;
         }
         // Debug.Log(other.gameObject.tag);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        Renderer renderer = this.gameObject.GetComponent<Renderer>();
+        if (stream.IsWriting)
+        {
+            stream.SendNext(myColor);
+        }
+        else if (stream.IsReading)
+        {
+
+            int newColor = (int)stream.ReceiveNext();
+            renderer.material.SetColor("_Color", colors[newColor]);
+        }
     }
 }

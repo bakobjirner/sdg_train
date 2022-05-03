@@ -21,13 +21,13 @@ public class Door : Interactable
     {
         if (doorLeft != null)
         {
-           positionOpenLeft = doorLeft.position + Vector3.left * maxOpening;
+           positionOpenLeft = doorLeft.position + -transform.right * maxOpening;
             positionClosedLeft = doorLeft.position;
             targetLeft = positionClosedLeft;
         }
         if (doorRight != null)
         {
-            positionOpenRight = doorRight.position + Vector3.right * maxOpening;
+            positionOpenRight = doorRight.position + transform.right * maxOpening;
             positionClosedRight = doorRight.position;
             targetRight = positionClosedRight;
         }

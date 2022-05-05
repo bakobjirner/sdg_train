@@ -1,8 +1,9 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : Interactable
+public class Door : Interactable, IPunObservable
 {
     public float speed = .1f;
     public Transform doorLeft;
@@ -15,6 +16,35 @@ public class Door : Interactable
     private Vector3 positionClosedLeft;
     private Vector3 positionOpenRight;
     private Vector3 positionClosedRight;
+
+    private bool lookedAt;
+
+    public GameObject text;
+    Transform player;
+    public override void hover(Transform player)
+    {
+        lookedAt = true;
+        this.player = player;
+    }
+
+    private void Update()
+    {
+        text.SetActive(lookedAt);
+        text.transform.LookAt(player);
+        text.transform.Rotate(Vector3.up, 180);
+        lookedAt = false;
+
+        if (!open)
+        {
+            GetComponent<BoxCollider>().isTrigger = false;
+            text.GetComponent<TextMesh>().text = "Press e \n to open";
+        }
+        else
+        {
+            GetComponent<BoxCollider>().isTrigger = true;
+            text.GetComponent<TextMesh>().text = "Press e \n to close";
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -78,11 +108,26 @@ public class Door : Interactable
         {
             Close();
             GetComponent<BoxCollider>().isTrigger = false;
+            text.GetComponent<TextMesh>().text = "Press e \n to open";
         }
         else
         {
             Open();
             GetComponent<BoxCollider>().isTrigger = true;
+            text.GetComponent<TextMesh>().text = "Press e \n to close";
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(open);
+        }
+        else if (stream.IsReading)
+        {
+
+            open = (bool)stream.ReceiveNext();
         }
     }
 }

@@ -34,6 +34,10 @@ public class InteractionController : MonoBehaviour
                 {
                     interactable.interact();
                 }
+                else
+                {
+                    interactable.hover(this.transform);
+                }
             }
         }
     }

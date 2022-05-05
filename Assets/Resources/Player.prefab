@@ -151,7 +151,6 @@ GameObject:
   - component: {fileID: 7928193365917477199}
   - component: {fileID: -9166176748333379982}
   - component: {fileID: 6811027369499314343}
-  - component: {fileID: -964004841326849316}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -322,22 +321,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &-964004841326849316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2627917020935873359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2290408194d55d547bb2a3eac67cc043, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rayLength: 5
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 2147483647
 --- !u!1 &4387877231613831628
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,6 +539,7 @@ GameObject:
   - component: {fileID: 9197785995611745919}
   - component: {fileID: 3111729024318042219}
   - component: {fileID: 5329878875490639242}
+  - component: {fileID: 2555331599848658733}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: Untagged
@@ -663,6 +647,22 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &2555331599848658733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6197485144952331860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2290408194d55d547bb2a3eac67cc043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayLength: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 2147483647
 --- !u!1001 &4294074825245799628
 PrefabInstance:
   m_ObjectHideFlags: 0

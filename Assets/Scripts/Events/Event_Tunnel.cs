@@ -13,7 +13,6 @@ public class Event_Tunnel : MonoBehaviour
     //      this event is supposed to provide opportunity for distraction by creating a low light situation
     //      fire this event to support roles that have trouble completing their objective unseen
 
-    // Moderator.fireEvent(tunnel)
     public string name = "tunnel";
     // does this event run local or synchronized
     public bool pun = false;
@@ -23,8 +22,8 @@ public class Event_Tunnel : MonoBehaviour
 
     private GameObject Tunnel_Instance;
 
-    private float stopAtZ = 30;
-    private float pauseUntil = 0;
+    private float stopAtZ = 30.0f;
+    private float pauseUntil = 0.0f;
     private bool moving = false;
     private bool halting = false;
     private bool selfDestroy = false;
@@ -45,6 +44,7 @@ public class Event_Tunnel : MonoBehaviour
         // we have stopped once already, now destroy the Event
         if (Tunnel_Instance.transform.position.z < stopAtZ && selfDestroy)
         {
+            Destroy(Tunnel_Instance);
             Destroy(gameObject);
         }
         // we have arrived at the stop, fake move with the shader now
@@ -61,7 +61,9 @@ public class Event_Tunnel : MonoBehaviour
     private void haltTrain() {
         halting = true;
         moving = false;
-        pauseUntil = Time.time + Random.Range(30,90);
+        // rm random time inside event, needs to be fully deterministic if not synched through pun
+        // pauseUntil = Time.time + Random.Range(30,90);
+        pauseUntil = Time.time + 30.0f;
         Tunnel_Material.SetFloat("_Speed", 5.0f);
         stopAtZ = -2000;
         selfDestroy = true;

@@ -48,7 +48,6 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
         // Disable Lobby UI
         UI.GetComponent<UIDocument>().visualTreeAsset = null;
 
-
         // Instance Players   
         if (PlayerController.LocalPlayerInstance == null) {
             this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, this.RespawnLocation.transform.position, Quaternion.identity);
@@ -60,6 +59,7 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
         // Disable Lobby Camera
         GameObject lobbyCam = lobbyGo.transform.GetChild(0).gameObject;
         lobbyCam.GetComponent<Camera>().enabled = false;
+        StartCoroutine(updateModerators());
     }
 
     public void RespawnPlayer() {
@@ -92,7 +92,9 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
     {
         Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
         lobbyGo.GetComponent<Lobby>().AddPlayer(other.NickName);
-        StartCoroutine(updateModerators());
+        if (GameRunning) {
+            StartCoroutine(updateModerators());
+        }
     }
 
     public override void OnPlayerLeftRoom(Player other)
@@ -103,10 +105,10 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
     }
 
     public IEnumerator updateModerators() {
-        yield return new WaitForSeconds(5);
-        this.ModeratorInstance.getAllPlayers();
+        yield return new WaitForSeconds(3);
+        ModeratorInstance.getAllPlayers();
         if (PhotonNetwork.IsMasterClient) {
-            this.ModeratorInstance.setRoles();
+            ModeratorInstance.setRoles();
         }
     }
 

@@ -16,17 +16,31 @@ public class Moderator : MonoBehaviourPunCallbacks
     public GameObject[] Active_Events;
 
     public GameObject Event_Tunnel;
+
+    private bool blockEvents = false;
     
     // Start is called before the first frame update
     void Start()
     {
+        if (!photonView.IsMine) {
+            return;
+        }
         if (!PhotonNetwork.IsMasterClient) {
             Debug.Log("Moderator: You are not the MasterClient.");
         } else {
             Debug.Log("Moderator: You are the MasterClient!");
         }
         getAllPlayers();
-        fireEvent("Event_Tunnel");
+    }
+
+    void Update() {
+        if (PhotonNetwork.IsMasterClient && photonView.IsMine) {
+            Active_Events = GameObject.FindGameObjectsWithTag("Event");
+            if (!blockEvents && Active_Events.Length == 0) {
+                blockEvents = true;
+                photonView.RPC("fireEvent", RpcTarget.AllViaServer, "Event_Tunnel");
+            }
+        }
     }
 
     // call this whenever player count changes (game start, connect, disconnect)
@@ -89,7 +103,6 @@ public class Moderator : MonoBehaviourPunCallbacks
         for (int i = 0; i < Players.Length; i++) {
             nicknames[i] = Players[i].photonView.Owner.NickName;
             roles[i] = Players[i].role.getRole();
-            Debug.Log(i+": "+nicknames[i]+" "+roles[i]);
         }
         photonView.RPC("SynchRoles", RpcTarget.AllViaServer, nicknames, roles);
     }
@@ -100,7 +113,7 @@ public class Moderator : MonoBehaviourPunCallbacks
         for (int i = 0; i < roles.Length; i++) {
             foreach (PlayerController player in Players) {
                 if (player.photonView.Owner.NickName.Equals(nicknames[i])) {
-                    Debug.Log("from RPC, setting "+player.photonView.Owner.NickName+" to role "+roles[i]);
+                    Debug.Log("Moderator RPC: setting "+player.photonView.Owner.NickName+" to role "+roles[i]);
                     player.SetRole(roles[i]);
                     player.updateUI();
                 }
@@ -109,15 +122,14 @@ public class Moderator : MonoBehaviourPunCallbacks
         getAllPlayers();
     }
 
+    [PunRPC]
     public void fireEvent(string name) {
         switch (name) {
             case "Event_Tunnel":
-                // if the Event is pun ->
-                // PhotonNetwork.Instantiate()
                 GameObject newObject = Instantiate(Event_Tunnel);
                 newObject.tag = "Event";
             break;
         }
-        Active_Events = GameObject.FindGameObjectsWithTag("Event");
+        blockEvents = false;
     }
 }

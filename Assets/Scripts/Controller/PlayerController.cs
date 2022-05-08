@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         if (photonView.IsMine == false) {
             PlayerCamera.enabled = false;
             PlayerCamera.GetComponent<AudioListener>().enabled = false;
-            SetHealthAndStaminaToUI();
+            updateUI();
         } else {
             ActorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
             Debug.Log("init Player, i am ActorNumber" + ActorNumber);
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         }
         ExecMovement();
         ConsumeOrRefillStamina();
-        SetHealthAndStaminaToUI();
+        updateUI();
     }
 
     void GetInput()
@@ -160,16 +160,16 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         return false;
     }
 
-    private void SetHealthAndStaminaToUI()
+    public void updateUI()
     {
         if (photonView.IsMine)
         {
-        GameUI ui = uiGameObject.GetComponent<GameUI>();
-        ui.setHealth(health);
-        ui.setStamina(stamina);
-        if(role != null) {
-            ui.setRole(role.getRole());
-        }
+            GameUI ui = uiGameObject.GetComponent<GameUI>();
+            ui.setHealth(health);
+            ui.setStamina(stamina);
+            if(role != null) {
+                ui.setRole(role.getRole());
+            }
         }
     }
 
@@ -208,12 +208,14 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(myColor);
+            stream.SendNext(health);
         }
         else if (stream.IsReading)
         {
 
             int newColor = (int)stream.ReceiveNext();
             renderer.material.SetColor("_Color", colors[newColor]);
+            health = (float)stream.ReceiveNext();
         }
     }
 }

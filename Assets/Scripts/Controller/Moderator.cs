@@ -34,11 +34,9 @@ public class Moderator : MonoBehaviourPunCallbacks
     public void getAllPlayers() {
         GameObject[] allObjects = GameObject.FindGameObjectsWithTag("Player");
         Players = new PlayerController[allObjects.Length];
-        Debug.Log("allObjects.Length "+ allObjects.Length);
         for (int i = 0; i < allObjects.Length; i++) {
             Players[i] = allObjects[i].GetComponent<PlayerController>();
         }
-        Debug.Log("getAllPlayers: "+Players.Length);
         for (int i=0; i < Players.Length; i++) {
             if (Players[i].role != null) {
                 switch (Players[i].role.getRole()) {
@@ -82,6 +80,33 @@ public class Moderator : MonoBehaviourPunCallbacks
                 }
             }
         }
+        PhotonView photonView = PhotonView.Get(this);
+        // pun2 can't handle 2d arrays as parameters, AMAZIN
+        // lets not use pun ever again
+        // synchronizing player roles took me 3hours of debugging with this AMAZIN pun RPC implementation
+        string[] roles = new string[Players.Length];
+        string[] nicknames = new string[Players.Length];
+        for (int i = 0; i < Players.Length; i++) {
+            nicknames[i] = Players[i].photonView.Owner.NickName;
+            roles[i] = Players[i].role.getRole();
+            Debug.Log(i+": "+nicknames[i]+" "+roles[i]);
+        }
+        photonView.RPC("SynchRoles", RpcTarget.AllViaServer, nicknames, roles);
+    }
+
+    [PunRPC]
+    public void SynchRoles(string[] nicknames, string[] roles) {
+        getAllPlayers();
+        for (int i = 0; i < roles.Length; i++) {
+            foreach (PlayerController player in Players) {
+                if (player.photonView.Owner.NickName.Equals(nicknames[i])) {
+                    Debug.Log("from RPC, setting "+player.photonView.Owner.NickName+" to role "+roles[i]);
+                    player.SetRole(roles[i]);
+                    player.updateUI();
+                }
+            }
+        }
+        getAllPlayers();
     }
 
     public void fireEvent(string name) {

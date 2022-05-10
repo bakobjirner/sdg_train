@@ -54,6 +54,7 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
         }
         if (this.ModeratorInstance == null) {
             this.ModeratorInstance = PhotonNetwork.Instantiate(this.Moderator.name, new Vector3(0,0,0), Quaternion.identity).GetComponent<Moderator>();
+            this.PlayerInstance.GetComponent<PlayerController>().moderator = this.ModeratorInstance;
         }
 
         // Disable Lobby Camera
@@ -64,7 +65,9 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
 
     public void RespawnPlayer() {
         RespawnLocation = GameObject.FindGameObjectWithTag("RespawnLocation");
-        PhotonNetwork.Destroy(PlayerController.LocalPlayerInstance);
+        if (PlayerController.LocalPlayerInstance != null) {
+            PhotonNetwork.Destroy(PlayerController.LocalPlayerInstance);
+        }
         this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, this.RespawnLocation.transform.position, Quaternion.identity);
     }
 

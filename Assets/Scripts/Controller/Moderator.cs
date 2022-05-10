@@ -124,6 +124,7 @@ public class Moderator : MonoBehaviourPunCallbacks
 
     [PunRPC]
     public void fireEvent(string name) {
+        Debug.Log("starting Event "+name);
         switch (name) {
             case "Event_Tunnel":
                 GameObject newObject = Instantiate(Event_Tunnel);

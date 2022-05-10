@@ -26,7 +26,7 @@ public class IngameMenu : MonoBehaviour
         }
     }
 
-    private void ToggleMenu()
+    public void ToggleMenu()
     {
         if (UnityEngine.Cursor.lockState == CursorLockMode.Locked)
         {
@@ -46,14 +46,14 @@ public class IngameMenu : MonoBehaviour
         }
     }
 
-    private void RespawnButtonPressed()
+    public void RespawnButtonPressed()
     {
         Destroy(PUN_Manager.Instance.PlayerInstance.gameObject.GetComponent<PlayerController>().uiGameObject);
         PUN_Manager.Instance.RespawnPlayer();
         ToggleMenu();
     }
 
-    private void QuitButtonPressed()
+    public void QuitButtonPressed()
     {
         PUN_Manager.Instance.LeaveRoom();
         Application.Quit();

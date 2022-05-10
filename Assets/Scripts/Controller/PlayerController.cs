@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public static GameObject LocalPlayerInstance;
 
     public Role role;
-
+    public Moderator moderator;
     public GameObject uiPrefab;
     public GameObject uiGameObject;
     public Camera PlayerCamera;
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     public GameObject Equipment;
     public GameObject Equipment_Overlay;
-   
+
     public int ActorNumber;
     private Color[] colors = { Color.red, Color.green, Color.blue, Color.cyan, Color.yellow, Color.magenta };
     private int myColor = 0;
@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             Debug.Log("init Player, i am ActorNumber" + ActorNumber);
             Cursor.lockState = CursorLockMode.Locked;
         }
+        Debug.Log(moderator is null);
     }
 
     // Update is called once per frame
@@ -106,6 +107,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         }
         if (Input.GetKey(KeyCode.Space)) {
             direction += transform.up*1.5f;
+        }
+        if (Input.GetKey(KeyCode.Mouse0)) {
+            ShootGun();
         }
         // Rotate Camera and Player
         if (Cursor.lockState == CursorLockMode.Locked) {
@@ -202,20 +206,52 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         // Debug.Log(other.gameObject.tag);
     }
 
+    public void ShootGun() {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit)) {
+            if (hit.collider.CompareTag("Player")) {
+                // Debug.Log(hit.collider.gameObject.GetComponent<PlayerController>().photonView.Owner.NickName);
+                PhotonView.Get(this).RPC("DamagePlayer", RpcTarget.AllViaServer,
+                    hit.collider.gameObject.GetComponent<PlayerController>().photonView.Owner.NickName,
+                    100.0f);
+            }
+        }
+    }
+
+    [PunRPC]
+    public void DamagePlayer(string nickname, float dmg) {
+        Debug.Log("received RPC DamagePlayer "+nickname);
+        PlayerController localPC = PlayerController.LocalPlayerInstance.GetComponent<PlayerController>();
+        if (localPC.photonView.Owner.NickName.Equals(nickname)) {
+            // the hit player was us, refresh UI and Destroy if necessary
+            Debug.Log("we were hit");
+            localPC.health -= dmg;
+            updateUI();
+            if (localPC.health <= 0.0f) {
+                Debug.Log("and we died");
+                // this is legit horrible code, we need a spectator death mode but i have no time
+                // replace this asap
+                Destroy(localPC.uiGameObject);
+                PhotonNetwork.Destroy(PlayerController.LocalPlayerInstance);
+                PUN_Manager.Instance.LeaveRoom();
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
+            }
+        }
+    }
+
+    // we can probably move this to RPCs
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         Renderer renderer = this.gameObject.GetComponent<Renderer>();
         if (stream.IsWriting)
         {
             stream.SendNext(myColor);
-            stream.SendNext(health);
         }
         else if (stream.IsReading)
         {
 
             int newColor = (int)stream.ReceiveNext();
             renderer.material.SetColor("_Color", colors[newColor]);
-            health = (float)stream.ReceiveNext();
         }
     }
 }

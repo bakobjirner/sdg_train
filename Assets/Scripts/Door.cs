@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Door : Interactable, IPunObservable
@@ -37,12 +38,12 @@ public class Door : Interactable, IPunObservable
         if (!open)
         {
             GetComponent<BoxCollider>().isTrigger = false;
-            text.GetComponent<TextMesh>().text = "Press e \n to open";
+            text.GetComponentInChildren<TextMeshPro>().text = "Press e \n to open";
         }
         else
         {
             GetComponent<BoxCollider>().isTrigger = true;
-            text.GetComponent<TextMesh>().text = "Press e \n to close";
+            text.GetComponentInChildren<TextMeshPro>().text = "Press e \n to close";
         }
     }
 
@@ -101,20 +102,21 @@ public class Door : Interactable, IPunObservable
         open = false;
     }
 
-    public override void interact()
+    [PunRPC]
+    public void interactRemote()
     {
         Debug.Log("Interact");
         if (open)
         {
             Close();
             GetComponent<BoxCollider>().isTrigger = false;
-            text.GetComponent<TextMesh>().text = "Press e \n to open";
+            text.GetComponentInChildren<TextMeshPro>().text = "Press e \n to open";
         }
         else
         {
             Open();
             GetComponent<BoxCollider>().isTrigger = true;
-            text.GetComponent<TextMesh>().text = "Press e \n to close";
+            text.GetComponentInChildren<TextMeshPro>().text = "Press e \n to close";
         }
     }
 
@@ -129,5 +131,10 @@ public class Door : Interactable, IPunObservable
 
             open = (bool)stream.ReceiveNext();
         }
+    }
+
+    public override void interact()
+    {
+        photonView.RPC("interactRemote", RpcTarget.All);
     }
 }

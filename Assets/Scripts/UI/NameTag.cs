@@ -11,7 +11,7 @@ public class NameTag : MonoBehaviourPun
     {
         if(!photonView.IsMine)
         {
-            nameTag = gameObject.GetComponent<TextMeshPro>();
+            nameTag = gameObject.GetComponentInChildren<TextMeshPro>();
             nameTag.text = photonView.Owner.NickName;
         } else
         {
@@ -21,9 +21,6 @@ public class NameTag : MonoBehaviourPun
 
     private void Update()
     {
-        gameObject.transform.LookAt(PUN_Manager.Instance.PlayerInstance.gameObject.transform);
-        Vector3 rotation = Quaternion.LookRotation(PUN_Manager.Instance.PlayerInstance.gameObject.transform.position).eulerAngles;
-        rotation.x = 0f;
-        transform.rotation = Quaternion.Euler(rotation);
+        transform.LookAt(PUN_Manager.Instance.PlayerInstance.gameObject.transform.position);
     }
 }

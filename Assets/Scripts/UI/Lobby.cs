@@ -78,7 +78,7 @@ public class Lobby : MonoBehaviour
         for(int i = 0; i< players.Length; i++)
         {
             VisualElement playerContainer = new VisualElement();
-            Label nameLabel = new Label(players[i].GetComponent<PlayerController>().nickName);
+            Label nameLabel = new Label(PhotonNetwork.PlayerList[i].NickName);
             nameLabel.style.color = new Color(0, 0, 0);
             string role = players[i].GetComponent<PlayerController>().role != null ? players[i].GetComponent<PlayerController>().role.getRole() : "no role";
             Label roleLabel = new Label(role);

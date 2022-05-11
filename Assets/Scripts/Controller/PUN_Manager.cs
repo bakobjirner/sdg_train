@@ -66,9 +66,10 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
 
     public void EndGame(string reason)
     {
+       
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         //delete Player
-        PhotonNetwork.Destroy(this.PlayerInstance);
+       
         //enable Lobby Camera
         GameObject lobbyCam = lobbyGo.transform.GetChild(0).gameObject;
         lobbyCam.GetComponent<Camera>().enabled = true;
@@ -76,6 +77,7 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
         UI.GetComponent<UIDocument>().visualTreeAsset = gameOverLobby;
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         lobbyGo.GetComponent<Lobby>().showGameOver(UI.GetComponent<UIDocument>().rootVisualElement, reason, players);
+        
     }
 
     public void RespawnPlayer() {

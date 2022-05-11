@@ -27,12 +27,24 @@ public class Fire : Interactable
 
     private void Update()
     {
-        value -= burnrate * Time.deltaTime;
         text.SetActive(lookedAt);
-        text.transform.LookAt(player);
-        lookedAt = false;
-        updateUI();
+            text.transform.LookAt(player);
+            lookedAt = false;
+            updateUI();
+    }
 
+    private void FixedUpdate()
+    {
+        if (PUN_Manager.Instance.IsGameRunning() && PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("decreaseValue", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void decreaseValue()
+    {
+        value -= burnrate;
         if (value <= 0)
         {
             EndGame();
@@ -42,7 +54,6 @@ public class Fire : Interactable
     [PunRPC]
     public void interactRemote()
     {
-        Debug.Log("put coal in fire");
         value = maxValue;
     }
 
@@ -62,6 +73,9 @@ public class Fire : Interactable
         GameUI ui = uiGameObject.GetComponent<GameUI>();
         ui.setVisibility(false);
         PUN_Manager.Instance.EndGame("train ran out of coal");
-        PhotonNetwork.Destroy(photonView);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Destroy(photonView);
+        }
     }
 }

@@ -72,7 +72,8 @@ public class Fire : Interactable
     {
         GameUI ui = uiGameObject.GetComponent<GameUI>();
         ui.setVisibility(false);
-        PUN_Manager.Instance.EndGame("train ran out of coal");
+        GameObject[] players = new GameObject[0];
+        PUN_Manager.Instance.EndGame("train ran out of coal", players);
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Destroy(photonView);

@@ -71,7 +71,7 @@ public class Lobby : MonoBehaviour
         Debug.Log(players.Length);
         VisualElement gameOverListContainer = gameOverRoot.Q<VisualElement>("game_over_list_container");
         Label titel = gameOverRoot.Q<Label>("title");
-        titel.text = "Game over because " + reason;
+        titel.text = "Game over: " + reason;
         
 
         //print players
@@ -83,7 +83,7 @@ public class Lobby : MonoBehaviour
             string role = players[i].GetComponent<PlayerController>().role != null ? players[i].GetComponent<PlayerController>().role.getRole() : "no role";
             Label roleLabel = new Label(role);
             roleLabel.style.color = new Color(0, 0, 0);
-            Label resultLabel = new Label("lost because the train stopped");
+            Label resultLabel = new Label("lost because "+reason);
             resultLabel.style.color = new Color(1, 1, 1);
             resultLabel.style.backgroundColor = new Color(1, 0, 0);
             playerContainer.Add(nameLabel);

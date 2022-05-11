@@ -221,21 +221,26 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     [PunRPC]
     public void DamagePlayer(string nickname, float dmg) {
-        Debug.Log("received RPC DamagePlayer "+nickname);
+        Debug.Log("RPC DamagePlayer "+nickname);
         PlayerController localPC = PlayerController.LocalPlayerInstance.GetComponent<PlayerController>();
         if (localPC.photonView.Owner.NickName.Equals(nickname)) {
             // the hit player was us, refresh UI and Destroy if necessary
-            Debug.Log("we were hit");
             localPC.health -= dmg;
+            Debug.Log("We were hit for "+dmg+" with "+health+" remaining");
             updateUI();
             if (localPC.health <= 0.0f) {
-                Debug.Log("and we died");
-                // this is legit horrible code, we need a spectator death mode but i have no time
-                // replace this asap
-                Destroy(localPC.uiGameObject);
+                Debug.Log("We died from RPC DamagePlayer");
+                
+                GameObject[] players = new GameObject[]{this.gameObject};
+                PUN_Manager.Instance.EndGame("murdered by "+nickname, players);
+                uiGameObject = GameObject.FindGameObjectWithTag("game_ui");
+                if (uiGameObject != null) {
+                    GameUI ui = uiGameObject.GetComponent<GameUI>();
+                    if (ui != null) {
+                        ui.setVisibility(false);
+                    }
+                }
                 PhotonNetwork.Destroy(PlayerController.LocalPlayerInstance);
-                PUN_Manager.Instance.LeaveRoom();
-                UnityEngine.Cursor.lockState = CursorLockMode.None;
             }
         }
     }

@@ -64,10 +64,11 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
         StartCoroutine(updateModerators());
     }
 
-    public void EndGame(string reason)
+    public void EndGame(string reason, GameObject[] players)
     {
-       
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length == 0) {
+            players = GameObject.FindGameObjectsWithTag("Player");
+        }
         //delete Player
        
         //enable Lobby Camera

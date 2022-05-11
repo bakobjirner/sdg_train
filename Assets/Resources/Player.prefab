@@ -352,6 +352,7 @@ MonoBehaviour:
   stamina: 1
   speed: 5
   shiftSpeed: 2
+  nickName: 
   Equipment: {fileID: 4434882081074671492}
   Equipment_Overlay: {fileID: 6892717984233464107}
   ActorNumber: 0

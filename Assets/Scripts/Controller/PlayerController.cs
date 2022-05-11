@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     private bool canSprint = true;
     public float speed = 1.0f;
     public float shiftSpeed = 1.5f;
-
+    public string nickName = "";
     public GameObject Equipment;
     public GameObject Equipment_Overlay;
 
@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             ActorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
             Debug.Log("init Player, i am ActorNumber" + ActorNumber);
             Cursor.lockState = CursorLockMode.Locked;
+            nickName = PhotonNetwork.LocalPlayer.NickName;
         }
         Debug.Log(moderator is null);
     }

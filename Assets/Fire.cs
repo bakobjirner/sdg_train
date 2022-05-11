@@ -32,6 +32,11 @@ public class Fire : Interactable
         text.transform.LookAt(player);
         lookedAt = false;
         updateUI();
+
+        if (value <= 0)
+        {
+            EndGame();
+        }
     }
 
     [PunRPC]
@@ -50,5 +55,13 @@ public class Fire : Interactable
     {
             GameUI ui = uiGameObject.GetComponent<GameUI>();
             ui.SetFireValue(value);
+    }
+
+    private void EndGame()
+    {
+        GameUI ui = uiGameObject.GetComponent<GameUI>();
+        ui.setVisibility(false);
+        PUN_Manager.Instance.EndGame("train ran out of coal");
+        PhotonNetwork.Destroy(photonView);
     }
 }

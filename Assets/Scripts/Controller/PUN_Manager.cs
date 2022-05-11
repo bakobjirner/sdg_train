@@ -13,7 +13,8 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
     // prefabs
     public GameObject Moderator;
     public GameObject Player;
-    
+    public VisualTreeAsset gameOverLobby;
+
     // instances
     private Moderator ModeratorInstance;
     public GameObject PlayerInstance;
@@ -61,6 +62,20 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
         GameObject lobbyCam = lobbyGo.transform.GetChild(0).gameObject;
         lobbyCam.GetComponent<Camera>().enabled = false;
         StartCoroutine(updateModerators());
+    }
+
+    public void EndGame(string reason)
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        //delete Player
+        PhotonNetwork.Destroy(this.PlayerInstance);
+        //enable Lobby Camera
+        GameObject lobbyCam = lobbyGo.transform.GetChild(0).gameObject;
+        lobbyCam.GetComponent<Camera>().enabled = true;
+        // Enable Game-Over-Lobby UI
+        UI.GetComponent<UIDocument>().visualTreeAsset = gameOverLobby;
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
+        lobbyGo.GetComponent<Lobby>().showGameOver(UI.GetComponent<UIDocument>().rootVisualElement, reason, players);
     }
 
     public void RespawnPlayer() {

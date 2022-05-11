@@ -65,4 +65,32 @@ public class Lobby : MonoBehaviour
     {
         PUN_Manager.Instance.StartGame();
     }
+
+    public void showGameOver(VisualElement gameOverRoot, string reason, GameObject[] players)
+    {
+        Debug.Log(players.Length);
+        VisualElement gameOverListContainer = gameOverRoot.Q<VisualElement>("game_over_list_container");
+        Label titel = gameOverRoot.Q<Label>("title");
+        titel.text = "Game over because " + reason;
+        
+
+        //print players
+        for(int i = 0; i< players.Length; i++)
+        {
+            VisualElement playerContainer = new VisualElement();
+            Label nameLabel = new Label(players[i].GetComponent<PlayerController>().nickName);
+            nameLabel.style.color = new Color(0, 0, 0);
+            string role = players[i].GetComponent<PlayerController>().role != null ? players[i].GetComponent<PlayerController>().role.getRole() : "no role";
+            Label roleLabel = new Label(role);
+            roleLabel.style.color = new Color(0, 0, 0);
+            Label resultLabel = new Label("lost because the train stopped");
+            resultLabel.style.color = new Color(1, 1, 1);
+            resultLabel.style.backgroundColor = new Color(1, 0, 0);
+            playerContainer.Add(nameLabel);
+            playerContainer.Add(roleLabel);
+            playerContainer.Add(resultLabel);
+            playerContainer.style.flexDirection = FlexDirection.Row;
+            gameOverListContainer.Add(playerContainer);
+        }
+    }
 }

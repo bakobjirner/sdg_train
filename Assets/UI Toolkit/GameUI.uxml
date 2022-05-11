@@ -9,4 +9,5 @@
             <ui:VisualElement name="StaminaBar" style="overflow: visible; width: 100%; height: 100%; background-color: rgb(255, 191, 0); border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:ProgressBar name="fire_status_bar" style="background-color: rgba(255, 0, 236, 0); color: rgba(0, 255, 4, 255);" />
 </ui:UXML>

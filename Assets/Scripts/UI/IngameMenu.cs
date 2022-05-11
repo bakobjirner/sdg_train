@@ -48,7 +48,7 @@ public class IngameMenu : MonoBehaviour
 
     public void RespawnButtonPressed()
     {
-        Destroy(PUN_Manager.Instance.PlayerInstance.gameObject.GetComponent<PlayerController>().uiGameObject);
+        //Destroy(PUN_Manager.Instance.PlayerInstance.gameObject.GetComponent<PlayerController>().uiGameObject);
         PUN_Manager.Instance.RespawnPlayer();
         ToggleMenu();
     }

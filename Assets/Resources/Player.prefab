@@ -347,8 +347,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moderator: {fileID: 0}
-  uiPrefab: {fileID: 7518688433274345288, guid: 4d9cf2ba3ca5df14f89bb63f8977501e, type: 3}
-  uiGameObject: {fileID: 0}
   PlayerCamera: {fileID: 9197785995611745919}
   health: 1
   stamina: 1

@@ -8,6 +8,7 @@ TagManager:
   - Lobby
   - Event
   - interactable
+  - game_ui
   layers:
   - Default
   - TransparentFX

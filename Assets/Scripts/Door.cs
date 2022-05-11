@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Door : Interactable, IPunObservable
+public class Door : Interactable
 {
     public float speed = .1f;
     public Transform doorLeft;
@@ -105,7 +105,6 @@ public class Door : Interactable, IPunObservable
     [PunRPC]
     public void interactRemote()
     {
-        Debug.Log("Interact");
         if (open)
         {
             Close();
@@ -117,19 +116,6 @@ public class Door : Interactable, IPunObservable
             Open();
             GetComponent<BoxCollider>().isTrigger = true;
             text.GetComponentInChildren<TextMeshPro>().text = "Press e \n to close";
-        }
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(open);
-        }
-        else if (stream.IsReading)
-        {
-
-            open = (bool)stream.ReceiveNext();
         }
     }
 

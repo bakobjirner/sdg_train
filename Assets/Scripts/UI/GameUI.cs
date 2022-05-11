@@ -9,6 +9,8 @@ public class GameUI : MonoBehaviour
     private VisualElement HealthBar;
     private Label HealthText;
     private VisualElement StaminaBar;
+    private ProgressBar progressBar;
+    private VisualElement infoContainer;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,9 @@ public class GameUI : MonoBehaviour
         HealthBar = root.Q<VisualElement>("HealthBar");
         HealthText = root.Q<Label>("HealthText");
         StaminaBar = root.Q<VisualElement>("StaminaBar");
+        progressBar = root.Q<ProgressBar>("fire_status_bar");
+        infoContainer = root.Q<VisualElement>("info_container");
+        setVisibility(false);
     }
 
     public void setHealth(float health)
@@ -34,5 +39,15 @@ public class GameUI : MonoBehaviour
     public void setRole(string description)
     {
         Role.text = description;
+    }
+    public void SetFireValue(float value)
+    {
+        progressBar.value = value;
+    }
+
+    public void setVisibility(bool visibility)
+    {
+        progressBar.visible = visibility;
+        infoContainer.visible = visibility;
     }
 }

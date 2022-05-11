@@ -11,8 +11,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     public Role role;
     public Moderator moderator;
-    public GameObject uiPrefab;
-    public GameObject uiGameObject;
+    private GameObject uiGameObject;
     public Camera PlayerCamera;
     public float health = 1.0f;
     public float stamina = 1.0f;
@@ -38,7 +37,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             Color newColor = colors[myColor];
             renderer.material.SetColor("_Color", newColor);
             updateEquipment();
-            uiGameObject = Instantiate(uiPrefab);
+            uiGameObject = GameObject.FindGameObjectWithTag("game_ui");
+            uiGameObject.GetComponent<GameUI>().setVisibility(true);
         }
         DontDestroyOnLoad(this.gameObject);
     }

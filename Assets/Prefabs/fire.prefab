@@ -286,7 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxValue: 100
   value: 0
-  burnrate: 0.1
+  burnrate: 0.01
   uiGameObject: {fileID: 0}
   text: {fileID: 5124679114881167250}
 --- !u!114 &429575953860736630

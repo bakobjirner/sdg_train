@@ -48,10 +48,7 @@ public class Fire : Interactable
 
     private void updateUI()
     {
-        if (photonView.IsMine)
-        {
             GameUI ui = uiGameObject.GetComponent<GameUI>();
             ui.SetFireValue(value);
-        }
     }
 }

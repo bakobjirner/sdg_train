@@ -19,6 +19,7 @@ public class TrainSpawner : MonoBehaviour
 
     private List<GameObject> wagons;
     private List<Vector3> positions;
+    private List<Vector3> spawnLocations;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class TrainSpawner : MonoBehaviour
 
    private void InstantiateWagons()
     {
+        spawnLocations = new List<Vector3>();
         //generate random positions
         GeneratePositions();
         //set the correct rotation
@@ -42,7 +44,7 @@ public class TrainSpawner : MonoBehaviour
         {
             GameObject wagon = PhotonNetwork.Instantiate(wagonPrefab.name, positions[wagons.Count], correctRotation);
             wagon.transform.parent = this.transform;
-            Debug.Log(positions[wagons.Count]);
+            spawnLocations = addSpawnLocationsCargo(spawnLocations, positions[wagons.Count]);
             wagons.Add(wagon);
         }
         //instantiate compartmentWagons, these will have added walls and benches
@@ -52,7 +54,7 @@ public class TrainSpawner : MonoBehaviour
             wagon.transform.parent = this.transform;
             GameObject compartment = PhotonNetwork.Instantiate(compartmentPrefab.name, positions[wagons.Count], correctRotation);
             compartment.transform.parent = wagon.transform;
-            Debug.Log(positions[wagons.Count]);
+            spawnLocations = addSpawnLocationsCompartment(spawnLocations, positions[wagons.Count]);
             wagons.Add(wagon);
         }
 
@@ -63,7 +65,6 @@ public class TrainSpawner : MonoBehaviour
             wagon.transform.parent = this.transform;
             GameObject diningGroup = PhotonNetwork.Instantiate(diningPrefab.name, positions[wagons.Count], correctRotation);
             diningGroup.transform.parent = wagon.transform;
-            Debug.Log(positions[wagons.Count]);
             wagons.Add(wagon);
         }
     }
@@ -90,6 +91,40 @@ public class TrainSpawner : MonoBehaviour
         positions = Shuffle(positions);
     }
 
+    /**
+     * adds spawnlocations relative to wagon position
+     */
+    private List<Vector3> addSpawnLocationsCargo(List<Vector3> spawnLocations, Vector3 relativePosition)
+    {
+        //in cargo, just spawn in the middle
+        spawnLocations.Add(relativePosition);
+        return spawnLocations;
+    }
 
-  
+    /**
+     * adds spawnlocations relative to wagon position
+     */
+    private List<Vector3> addSpawnLocationsCompartment(List<Vector3> spawnLocations, Vector3 relativePosition)
+    {
+        //in compartmentwagon, spawn in one of the compartments
+        spawnLocations.Add(new Vector3(-1,0,-7.5f) + relativePosition);
+        spawnLocations.Add(new Vector3(-1,0, -4.5f) + relativePosition);
+        spawnLocations.Add(new Vector3(-1,0, -1.5f) + relativePosition);
+        spawnLocations.Add(new Vector3(-1,0, 1.5f) + relativePosition);
+        spawnLocations.Add(new Vector3(-1,0, 4.5f) + relativePosition);
+        spawnLocations.Add(new Vector3(-1,0, 7.5f) + relativePosition);
+        return spawnLocations;
+    }
+
+
+    public List<Vector3> getSpawnLocations()
+    {
+        if (spawnLocations.Count > 0)
+        {
+            return spawnLocations;
+        }
+        List<Vector3> list = new List<Vector3>();
+        list.Add(Vector3.zero);
+        return list;
+    }
 }

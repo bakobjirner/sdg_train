@@ -56,7 +56,6 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
         // Instance Players   
         if (PlayerController.LocalPlayerInstance == null) {
             Vector3 spawnPos = spawnLocations[Random.Range(0,spawnLocations.Count-1)];
-            Debug.Log(spawnLocations);
             Debug.Log(spawnPos);
             this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, spawnPos, Quaternion.identity);
         }

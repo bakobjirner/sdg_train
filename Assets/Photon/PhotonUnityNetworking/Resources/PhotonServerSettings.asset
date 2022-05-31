@@ -45,6 +45,8 @@ MonoBehaviour:
   - interactRemote
   - DamagePlayer
   - decreaseValue
+  - addSpawnLocationsCargo
+  - addSpawnLocationsCompartment
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

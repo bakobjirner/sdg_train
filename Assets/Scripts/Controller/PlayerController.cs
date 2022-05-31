@@ -266,8 +266,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         float minX = -200;
         float maxY = 100;
         float minY = 0;
-        float maxZ = 200;
-        float minZ = -200;
+        float maxZ = 500;
+        float minZ = -500;
 
         if (transform.position.x > maxX ||
             transform.position.x < minX ||

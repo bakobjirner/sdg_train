@@ -538,7 +538,7 @@ AudioReverbZone:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4950921338108344665}
   m_Enabled: 1
-  m_MinDistance: 104.6
+  m_MinDistance: 200
   m_MaxDistance: 220
   m_ReverbPreset: 14
   m_Room: -1000

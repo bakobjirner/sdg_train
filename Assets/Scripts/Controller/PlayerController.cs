@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public GameObject Equipment;
     public GameObject Equipment_Overlay;
     public Animator characterAnimator;
+    public SkinnedMeshRenderer playerMesh;
 
     public int ActorNumber;
     private Color[] colors = { Color.red, Color.green, Color.blue, Color.cyan, Color.yellow, Color.magenta };
@@ -40,6 +41,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             updateEquipment();
             uiGameObject = GameObject.FindGameObjectWithTag("game_ui");
             uiGameObject.GetComponent<GameUI>().setVisibility(true);
+            // disable player mesh
+            // playerMesh.enabled = false;
         }
         DontDestroyOnLoad(this.gameObject);
     }

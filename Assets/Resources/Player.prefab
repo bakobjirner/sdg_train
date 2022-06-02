@@ -169,6 +169,8 @@ MonoBehaviour:
   nickName: 
   Equipment: {fileID: 4434882081074671492}
   Equipment_Overlay: {fileID: 6892717984233464107}
+  characterAnimator: {fileID: 0}
+  playerMesh: {fileID: 0}
   ActorNumber: 0
 --- !u!54 &6811027369499314343
 Rigidbody:

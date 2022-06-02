@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             return;
         }
         GetInput();
+        CheckInBoundries();
     }
 
     // Gets called every 0.02 seconds (Time.fixedDeltaTime)
@@ -266,6 +267,29 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
             int newColor = (int)stream.ReceiveNext();
             renderer.material.SetColor("_Color", colors[newColor]);
+        }
+    }
+
+    /**
+     *this function gets triggered if a player leaves the world, for example by falling out of the train 
+     **/
+    private void CheckInBoundries()
+    {
+        float maxX = 200;
+        float minX = -200;
+        float maxY = 100;
+        float minY = 0;
+        float maxZ = 500;
+        float minZ = -500;
+
+        if (transform.position.x > maxX ||
+            transform.position.x < minX ||
+            transform.position.y > maxY ||
+            transform.position.y < minY ||
+            transform.position.z > maxZ ||
+            transform.position.z < minZ){
+            PhotonView.Get(this).RPC("DamagePlayer", RpcTarget.AllViaServer,
+                   photonView.Owner.NickName,health*2);
         }
     }
 }

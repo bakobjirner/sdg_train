@@ -1,10 +1,11 @@
-using System;
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 public class PUN_Manager : MonoBehaviourPunCallbacks
 {
@@ -18,8 +19,9 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
     // instances
     private Moderator ModeratorInstance;
     public GameObject PlayerInstance;
+    public TrainSpawner train;
 
-    private GameObject RespawnLocation;
+    private List<Vector3> spawnLocations;
 
     public GameObject UI;
     private GameObject lobbyGo;
@@ -27,7 +29,6 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
 
     void Start() {
         Instance = this;
-        RespawnLocation = GameObject.FindGameObjectWithTag("RespawnLocation");
         ThrowPlayersInLobby();
     }
 
@@ -44,6 +45,9 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
+
+        spawnLocations = train.getSpawnLocations();
+
         GameRunning = true;
 
         // Disable Lobby UI
@@ -51,7 +55,9 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
 
         // Instance Players   
         if (PlayerController.LocalPlayerInstance == null) {
-            this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, this.RespawnLocation.transform.position, Quaternion.identity);
+            Vector3 spawnPos = spawnLocations[Random.Range(0,spawnLocations.Count-1)];
+            Debug.Log(spawnPos);
+            this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, spawnPos, Quaternion.identity);
         }
         if (this.ModeratorInstance == null) {
             this.ModeratorInstance = PhotonNetwork.Instantiate(this.Moderator.name, new Vector3(0,0,0), Quaternion.identity).GetComponent<Moderator>();
@@ -81,11 +87,11 @@ public class PUN_Manager : MonoBehaviourPunCallbacks
     }
 
     public void RespawnPlayer() {
-        RespawnLocation = GameObject.FindGameObjectWithTag("RespawnLocation");
+        Vector3 spawnPos = spawnLocations[Random.Range(0, spawnLocations.Count - 1)];
         if (PlayerController.LocalPlayerInstance != null) {
             PhotonNetwork.Destroy(PlayerController.LocalPlayerInstance);
         }
-        this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, this.RespawnLocation.transform.position, Quaternion.identity);
+        this.PlayerInstance = PhotonNetwork.Instantiate(this.Player.name, spawnPos, Quaternion.identity);
     }
 
     public override void OnLeftRoom()

@@ -8,10 +8,12 @@ public class TrainSpawner : MonoBehaviourPun
     public GameObject wagonPrefab;
     public GameObject compartmentPrefab;
     public GameObject diningPrefab;
+    public GameObject gamingPrefab;
 
     public int compartmentWagons;
     public int diningWagons;
     public int cargoWagons;
+    public int gameWagons;
 
     public float wagonSpacing;
     public float wagonHeight = 1;
@@ -69,6 +71,16 @@ public class TrainSpawner : MonoBehaviourPun
             diningGroup.transform.parent = wagon.transform;
             wagons.Add(wagon);
         }
+
+        //instantiate gaming wagons, these will have added arcades
+        for (int i = 0; i < gameWagons; i++)
+        {
+            GameObject wagon = PhotonNetwork.Instantiate(wagonPrefab.name, positions[wagons.Count], correctRotation);
+            wagon.transform.parent = this.transform;
+            GameObject gameGroup = PhotonNetwork.Instantiate(gamingPrefab.name, positions[wagons.Count], correctRotation);
+            gameGroup.transform.parent = wagon.transform;
+            wagons.Add(wagon);
+        }
     }
 
     private List<Vector3> Shuffle(List<Vector3> list)
@@ -85,7 +97,7 @@ public class TrainSpawner : MonoBehaviourPun
 
     private void GeneratePositions()
     {
-        int totalWagons = diningWagons + compartmentWagons + cargoWagons;
+        int totalWagons = diningWagons + compartmentWagons + cargoWagons + gameWagons;
         positions = new List<Vector3>();
         for(int i = 0; i < totalWagons; i++) {
             positions.Add(new Vector3(0, wagonHeight, wagonSpacing * i + locomotiveSpacing));

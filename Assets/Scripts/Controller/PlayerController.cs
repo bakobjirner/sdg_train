@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public string nickName = "";
     public GameObject Equipment;
     public GameObject Equipment_Overlay;
+    public Animator characterAnimator;
 
     public int ActorNumber;
     private Color[] colors = { Color.red, Color.green, Color.blue, Color.cyan, Color.yellow, Color.magenta };
@@ -86,28 +87,40 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     void GetInput()
     {
         direction = new Vector3(0,0,0);
-        if (Input.GetKey(KeyCode.W))
+        float vertical = Input.GetAxisRaw("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        if (vertical > 0)
         {
             direction += transform.forward;
-        }
-        if (Input.GetKey(KeyCode.S))
+        } 
+        else if (vertical < 0)
         {
             direction -= transform.forward;
         }
-        if (Input.GetKey(KeyCode.A))
+        if (horizontal > 0)
+        {
+            direction += transform.right;
+        } 
+        else if (horizontal < 0)
         {
             direction -= transform.right;
         }
-        if (Input.GetKey(KeyCode.D))
-        {
-            direction += transform.right;
-        }
+        characterAnimator.SetFloat("X", vertical);
+        characterAnimator.SetFloat("Z", horizontal);
+        Debug.Log("Vertical: " + vertical + " - Horizontal: " + horizontal);
+        
         if (Input.GetKey(KeyCode.LeftShift) && canSprint)
         {
             direction *= shiftSpeed;
+            characterAnimator.SetFloat("Shift", 1);
+        }
+        else
+        {
+            characterAnimator.SetFloat("Shift", 0);
         }
         if (Input.GetKey(KeyCode.Space)) {
             direction += transform.up*1.5f;
+            characterAnimator.SetTrigger("Jump");
         }
         if (Input.GetKey(KeyCode.Mouse0)) {
             ShootGun();

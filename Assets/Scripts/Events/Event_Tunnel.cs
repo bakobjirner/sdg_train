@@ -65,7 +65,7 @@ public class Event_Tunnel : MonoBehaviour
         // pauseUntil = Time.time + Random.Range(30,90);
         pauseUntil = Time.time + 30.0f;
         Tunnel_Material.SetFloat("_Speed", 5.0f);
-        stopAtZ = -2000;
+        stopAtZ = -500;
         selfDestroy = true;
     }
 

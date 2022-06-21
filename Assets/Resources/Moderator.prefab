@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1385762213327592820}
-  - component: {fileID: 6887325991623858201}
   - component: {fileID: 3976357922952123800}
+  - component: {fileID: -7856575580707335466}
   m_Layer: 0
   m_Name: Moderator
   m_TagString: Untagged
@@ -33,24 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6887325991623858201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6855215463789765583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c16aa0ddd5fc374a8eeb7671c5dca51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Players: []
-  murderers: 0
-  passengers: 0
-  security: 0
-  Active_Events: []
-  Event_Tunnel: {fileID: 7457841071928420223, guid: 524713cb47a71a94cb6e675fc35e13be, type: 3}
 --- !u!114 &3976357922952123800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,3 +55,24 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-7856575580707335466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6855215463789765583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c16aa0ddd5fc374a8eeb7671c5dca51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Players: []
+  murderers: 0
+  passengers: 0
+  security: 0
+  Active_Events: []
+  Event_Tunnel: {fileID: 7457841071928420223, guid: 524713cb47a71a94cb6e675fc35e13be, type: 3}
+  Event_Station: {fileID: 5767998554055744885, guid: 396e06a0e1436f34bbcfa1fbc182900c, type: 3}
+  AudioTheme: {fileID: 7570226271609072670, guid: d0e34ce0a5a7056498b2cadcb999d07e, type: 3}
+  AudioTracks: {fileID: 5086573176054701278, guid: 7d7e2ca5e1071dc438b890244e570dd1, type: 3}

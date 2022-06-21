@@ -10,6 +10,7 @@ TagManager:
   - interactable
   - game_ui
   - train
+  - landscape
   layers:
   - Default
   - TransparentFX

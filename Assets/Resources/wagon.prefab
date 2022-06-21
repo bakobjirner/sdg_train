@@ -1922,6 +1922,7 @@ GameObject:
   - component: {fileID: 8046518427124783004}
   - component: {fileID: 2769458843944926025}
   - component: {fileID: 5445798640029157817}
+  - component: {fileID: 9097883904520742888}
   m_Layer: 0
   m_Name: wagon
   m_TagString: Untagged
@@ -2062,6 +2063,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1434604654925876401, guid: 8537e82ec40aaaa4295f126eeb0b5c58, type: 3}
+--- !u!114 &9097883904520742888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8406537773590771273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abaf4fdf2e1f8d448905b1ac8ed4263f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
 --- !u!1 &8718251756772247994
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,8 @@ public class Arcade : MonoBehaviour
     private int rotateAmount = 36;
     Material material;
     public float frequency = 2;
+    private TrainSpawner train;
+    private bool used = false;
 
 
     public void Start()
@@ -25,7 +27,10 @@ public class Arcade : MonoBehaviour
         material.SetFloat("_rotRed", rotRed);
         material.SetFloat("_rotGreen", rotGreen);
         material.SetFloat("_rotBlue", rotBlue);
+        train = GameObject.FindWithTag("train").GetComponent<TrainSpawner>();
     }
+    
+    
 
    
     public void Rotate(int Color)
@@ -49,7 +54,12 @@ public class Arcade : MonoBehaviour
 
         if (rotRed%360==0&& rotGreen % 360 == 0 && rotBlue % 360 == 0)
         {
-            Debug.Log("won");
+            if(!used)
+            {
+                train.DetachLastWagon();
+                used = true;
+            }
+            
         }
     }
 

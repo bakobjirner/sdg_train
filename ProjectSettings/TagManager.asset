@@ -9,6 +9,7 @@ TagManager:
   - Event
   - interactable
   - game_ui
+  - train
   layers:
   - Default
   - TransparentFX

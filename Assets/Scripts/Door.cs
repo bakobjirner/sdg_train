@@ -17,6 +17,8 @@ public class Door : Interactable
     private Vector3 positionClosedLeft;
     private Vector3 positionOpenRight;
     private Vector3 positionClosedRight;
+    public bool isEnabled = true;
+    
 
     private bool lookedAt;
 
@@ -67,6 +69,8 @@ public class Door : Interactable
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (isEnabled)
+        {
             if (doorLeft != null)
             {
                 doorLeft.transform.position = Vector3.MoveTowards(doorLeft.transform.position, targetLeft, speed);
@@ -75,6 +79,7 @@ public class Door : Interactable
             {
                 doorRight.transform.position = Vector3.MoveTowards(doorRight.transform.position, targetRight, speed);
             }
+        }
     }
 
     public void Open()

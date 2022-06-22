@@ -10,6 +10,7 @@ public class LandscapeGeneratorShader : MonoBehaviour
     Vector2[] uvs;
     Mesh mesh;
     MeshFilter meshFilter;
+    public bool GenerateInEditor = false;
 
     public GameObject tracks;
     public GameObject rails;
@@ -62,6 +63,19 @@ public class LandscapeGeneratorShader : MonoBehaviour
 
 
     private void OnValidate()
+    {
+        if (GenerateInEditor)
+        {
+            init();
+        }
+    }
+
+    public void Start()
+    {
+        init();
+    }
+
+    private void init()
     {
         setValues();
         SetTracks();

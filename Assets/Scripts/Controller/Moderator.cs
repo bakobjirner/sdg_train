@@ -16,8 +16,17 @@ public class Moderator : MonoBehaviourPunCallbacks
     public GameObject[] Active_Events;
 
     public GameObject Event_Tunnel;
+    public GameObject Event_Station;
+    public GameObject AudioTheme;
+    private GameObject AudioTheme_Instance;
+    public GameObject AudioTracks;
+    private GameObject AudioTracks_Instance;
 
     private bool blockEvents = false;
+
+    // counts the amount of Events that have triggered, terminating the game past a treshold
+    private int EventCounter = 0;
+    public int EventLimit = 1;
     
     // Start is called before the first frame update
     void Start()
@@ -31,6 +40,7 @@ public class Moderator : MonoBehaviourPunCallbacks
             Debug.Log("Moderator: You are the MasterClient!");
         }
         getAllPlayers();
+        AudioTracks_Instance = Instantiate(AudioTracks, new Vector3(0,0,0), Quaternion.identity);
     }
 
     void Update() {
@@ -38,7 +48,12 @@ public class Moderator : MonoBehaviourPunCallbacks
             Active_Events = GameObject.FindGameObjectsWithTag("Event");
             if (!blockEvents && Active_Events.Length == 0) {
                 blockEvents = true;
-                photonView.RPC("fireEvent", RpcTarget.AllViaServer, "Event_Tunnel");
+                if (EventCounter < EventLimit) {
+                    photonView.RPC("fireEvent", RpcTarget.AllViaServer, "Event_Tunnel");
+                    EventCounter++;
+                } else {
+                    photonView.RPC("fireEvent", RpcTarget.AllViaServer, "Event_Station");
+                }
             }
         }
     }
@@ -66,6 +81,17 @@ public class Moderator : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    // starts the ending theme and eventually quits the player out of the lobby
+    // called when Event_Station halts the train
+    public void endGame() {
+        PUN_Manager.Instance.preventEndGame = true;
+        GameObject UI = GameObject.FindGameObjectWithTag("game_ui");
+        UI.SetActive(false);
+        AudioTracks_Instance.GetComponent<AudioSource>().mute = true;
+        AudioTheme_Instance = Instantiate(AudioTheme, new Vector3(0,0,0), Quaternion.identity);
+        // todo: gracefully quit game
     }
 
     public void setRoles() {
@@ -129,7 +155,11 @@ public class Moderator : MonoBehaviourPunCallbacks
             case "Event_Tunnel":
                 GameObject newObject = Instantiate(Event_Tunnel);
                 newObject.tag = "Event";
-            break;
+                break;
+            case "Event_Station":
+                GameObject newObject2 = Instantiate(Event_Station);
+                newObject2.tag = "Event";
+                break;
         }
         blockEvents = false;
     }

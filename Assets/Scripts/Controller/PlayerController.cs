@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         }
         characterAnimator.SetFloat("X", vertical);
         characterAnimator.SetFloat("Z", horizontal);
-
+        
         if (Input.GetKey(KeyCode.LeftShift) && canSprint)
         {
             direction *= shiftSpeed;

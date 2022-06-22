@@ -155,4 +155,28 @@ public class TrainSpawner : MonoBehaviourPun
         list.Add(Vector3.zero);
         return list;
     }
+
+    
+    public void DetachLastWagon()
+    {
+        photonView.RPC("Detatch", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    private void Detatch()
+    {
+        //find last wagon
+        float lastZ = 0;
+        int lastId = 0;
+        for (int i = 0; i < wagons.Count; i++)
+        {
+            if (wagons[i].transform.position.z < lastZ)
+            {
+                lastZ = wagons[i].transform.position.z;
+                lastId = i;
+            }
+        }
+        wagons[lastId].GetComponent<Wagon>().Detach(10);
+        wagons.Remove(wagons[lastId]);
+    }
 }

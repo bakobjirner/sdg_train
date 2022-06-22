@@ -59,9 +59,6 @@ public class LandscapeGeneratorShader : MonoBehaviour
         material.SetFloat("_noiseZoom", noiseZoom);
     }
 
-   
-
-
     private void OnValidate()
     {
         if (GenerateInEditor)
@@ -82,6 +79,11 @@ public class LandscapeGeneratorShader : MonoBehaviour
         SetRails();
     }
 
+    // events call this after updating the public props
+    public void updateSpeed() {
+        material.SetFloat("_scrollSpeed", scrollSpeed);
+        trackMaterial.SetFloat("_speed", scrollSpeed * trackSpeedFactor);
+    }
 
     //create a basic plane
     private void CreatePlane()
@@ -90,8 +92,6 @@ public class LandscapeGeneratorShader : MonoBehaviour
         uvs = PlaneGenerator.GetUvs(vertices, worldResolution, worldResolution);
         triangles = PlaneGenerator.GetTriangles(worldResolution, worldResolution);
     }
-
-  
 
     private void UpdateMesh()
     {

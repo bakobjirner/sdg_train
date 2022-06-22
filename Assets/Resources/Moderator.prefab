@@ -76,3 +76,4 @@ MonoBehaviour:
   Event_Station: {fileID: 5767998554055744885, guid: 396e06a0e1436f34bbcfa1fbc182900c, type: 3}
   AudioTheme: {fileID: 7570226271609072670, guid: d0e34ce0a5a7056498b2cadcb999d07e, type: 3}
   AudioTracks: {fileID: 5086573176054701278, guid: 7d7e2ca5e1071dc438b890244e570dd1, type: 3}
+  EventLimit: 1

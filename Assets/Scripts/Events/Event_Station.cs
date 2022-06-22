@@ -9,7 +9,7 @@ public class Event_Station : MonoBehaviour
     //  2.  progressively slow down the landscape as the station approaches, finally halting all movement.
     //  3.  the game loops ends here, disable all damage. display the game results on the station display.
     // when do we fire this event?
-    //  after 5 Minutes we let the train arrive at the final station, ending the game.
+    //  after ~5 Minutes we let the train arrive at the final station, ending the game.
 
     public string name = "station";
     // does this event run local or synchronized
@@ -40,9 +40,18 @@ public class Event_Station : MonoBehaviour
         }
         if (Station_Instance.transform.position.z < stopAtZ && moving)
         {
+            // halt all moving elements in the scene
             moving = false;
             LandscapeScript.scrollSpeed = 0;
+            LandscapeScript.updateSpeed();
+            GameObject[] allWagons = GameObject.FindGameObjectsWithTag("animator_wheels");
+            foreach (GameObject wagon in allWagons) {
+                wagon.GetComponent<Animator>().enabled = false;
+            }
+            // call moderator to terminate the game loop
             PlayerController.LocalPlayerInstance.GetComponent<PlayerController>().moderator.endGame();
+            // clean up
+            Destroy(gameObject);
         }
     }
 }

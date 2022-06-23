@@ -575,6 +575,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2120507862049687522}
     m_Modifications:
+    - target: {fileID: 886535834148187989, guid: cf41c4c54e399934f8368af119ce0bda, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 1658941229074693616, guid: cf41c4c54e399934f8368af119ce0bda, type: 3}
       propertyPath: m_RootOrder
       value: 17
@@ -634,6 +638,10 @@ PrefabInstance:
     - target: {fileID: 8632189278906192353, guid: cf41c4c54e399934f8368af119ce0bda, type: 3}
       propertyPath: m_Name
       value: stationScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632189278906192353, guid: cf41c4c54e399934f8368af119ce0bda, type: 3}
+      propertyPath: m_TagString
+      value: station_screen
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf41c4c54e399934f8368af119ce0bda, type: 3}

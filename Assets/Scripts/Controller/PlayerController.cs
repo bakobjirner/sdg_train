@@ -51,8 +51,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void SetRole(string name) {
-        role = new Role(name);
+    public void SetRole(string name, string objective) {
+        role = new Role(name, objective);
         Debug.Log("Player " + ActorNumber + " is now now Role " + role.getRole());
     }
 
@@ -205,6 +205,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             ui.setStamina(stamina);
             if(role != null) {
                 ui.setRole(role.getRole());
+                ui.setObjective(role.getObjective());
             }
         }
     }

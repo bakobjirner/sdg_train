@@ -11,6 +11,8 @@ TagManager:
   - game_ui
   - train
   - landscape
+  - animator_wheels
+  - station_screen
   layers:
   - Default
   - TransparentFX

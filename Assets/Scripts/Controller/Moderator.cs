@@ -102,7 +102,9 @@ public class Moderator : MonoBehaviourPunCallbacks
     }
 
     public void setRoles() {
+        Debug.Log("I am the masterclient moderator, setting roles now.");
         if (Players.Length <= 1) {
+            Debug.Log("To few players to set roles, returning.");
             return;
         }
         // first shuffle player order
@@ -119,7 +121,7 @@ public class Moderator : MonoBehaviourPunCallbacks
                     Players[i].SetRole("Murderer", "Kill a passenger and reach the station.");
                     murderers++;
                 } else if (security <= 0) {
-                    Players[i].SetRole("Security", "Don't let anyone get killed on the train.");
+                    Players[i].SetRole("Security", "Don't let anyone die on the train.");
                     security++;
                 } else if (saboteurs <= 0) {
                     Players[i].SetRole("Saboteur", "Prevent the train from reaching the station.");
@@ -128,6 +130,7 @@ public class Moderator : MonoBehaviourPunCallbacks
                     Players[i].SetRole("Passenger", "Survive and reach the station.");
                     passengers++;
                 }
+                Debug.Log("set a new player role: "+Players[i].role.getRole() +" for "+Players[i].nickName);
             }
         }
         PhotonView photonView = PhotonView.Get(this);
@@ -142,6 +145,7 @@ public class Moderator : MonoBehaviourPunCallbacks
             roles[i] = Players[i].role.getRole();
             objectives[i] = Players[i].role.getObjective();
         }
+        // gather all player-role-data from the masterclient, then send it to all clients via RPC
         photonView.RPC("SynchRoles", RpcTarget.AllViaServer, nicknames, roles, objectives);
     }
 

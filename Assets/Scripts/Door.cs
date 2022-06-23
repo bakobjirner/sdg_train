@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Door : Interactable
+public class Door : Interactable, IPunObservable
 {
     public float speed = .1f;
     public Transform doorLeft;
@@ -28,6 +28,10 @@ public class Door : Interactable
     {
         lookedAt = true;
         this.player = player;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+        //
     }
 
     private void Update()

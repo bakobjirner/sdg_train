@@ -9,7 +9,7 @@ public class Fire : Interactable
     Transform player;
     public float maxValue = 100;
     public float value;
-    public float burnrate = .1f;
+    public float burnrate = .05f;
     public GameObject uiGameObject;
 
     public GameObject text;

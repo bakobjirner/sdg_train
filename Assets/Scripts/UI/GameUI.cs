@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class GameUI : MonoBehaviour
 {
     private Label Role;
+    private Label Objective;
     private VisualElement HealthBar;
     private Label HealthText;
     private VisualElement StaminaBar;
@@ -17,6 +18,7 @@ public class GameUI : MonoBehaviour
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
         Role = root.Q<Label>("Role");
+        Objective = root.Q<Label>("Objective");
         HealthBar = root.Q<VisualElement>("HealthBar");
         HealthText = root.Q<Label>("HealthText");
         StaminaBar = root.Q<VisualElement>("StaminaBar");
@@ -40,6 +42,11 @@ public class GameUI : MonoBehaviour
     {
         Role.text = description;
     }
+
+    public void setObjective(string description) {
+        Objective.text = description;
+    }
+
     public void SetFireValue(float value)
     {
         progressBar.value = value;

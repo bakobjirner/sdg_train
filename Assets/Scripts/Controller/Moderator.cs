@@ -12,6 +12,7 @@ public class Moderator : MonoBehaviourPunCallbacks
     public int murderers = 0;
     public int passengers = 0;
     public int security = 0;
+    public int saboteurs = 0;
 
     public GameObject[] Active_Events;
 
@@ -49,9 +50,12 @@ public class Moderator : MonoBehaviourPunCallbacks
             if (!blockEvents && Active_Events.Length == 0) {
                 blockEvents = true;
                 if (EventCounter < EventLimit) {
+                    // if we had a list of collected data which determines preference on events to fire
+                    // this is where it would be evaluated
                     photonView.RPC("fireEvent", RpcTarget.AllViaServer, "Event_Tunnel");
                     EventCounter++;
                 } else {
+                    // trigger the end-of-game event
                     photonView.RPC("fireEvent", RpcTarget.AllViaServer, "Event_Station");
                 }
             }
@@ -74,6 +78,9 @@ public class Moderator : MonoBehaviourPunCallbacks
                         break;
                     case "Security":
                         security++;
+                        break;
+                    case "Saboteur":
+                        saboteurs++;
                         break;
                     case "Passenger":
                         passengers++;
@@ -109,13 +116,16 @@ public class Moderator : MonoBehaviourPunCallbacks
         for (int i = 0; i < Players.Length; i++) {
             if (Players[i].role == null) {
                 if (murderers <= 0) {
-                    Players[i].SetRole("Murderer");
+                    Players[i].SetRole("Murderer", "Kill a passenger and reach the station.");
                     murderers++;
                 } else if (security <= 0) {
-                    Players[i].SetRole("Security");
+                    Players[i].SetRole("Security", "Don't let anyone get killed on the train.");
                     security++;
+                } else if (saboteurs <= 0) {
+                    Players[i].SetRole("Saboteur", "Prevent the train from reaching the station.");
+                    saboteurs++;
                 } else {
-                    Players[i].SetRole("Passenger");
+                    Players[i].SetRole("Passenger", "Survive and reach the station.");
                     passengers++;
                 }
             }
@@ -125,22 +135,24 @@ public class Moderator : MonoBehaviourPunCallbacks
         // lets not use pun ever again
         // synchronizing player roles took me 3hours of debugging with this AMAZIN pun RPC implementation
         string[] roles = new string[Players.Length];
+        string[] objectives = new string[Players.Length];
         string[] nicknames = new string[Players.Length];
         for (int i = 0; i < Players.Length; i++) {
             nicknames[i] = Players[i].photonView.Owner.NickName;
             roles[i] = Players[i].role.getRole();
+            objectives[i] = Players[i].role.getObjective();
         }
-        photonView.RPC("SynchRoles", RpcTarget.AllViaServer, nicknames, roles);
+        photonView.RPC("SynchRoles", RpcTarget.AllViaServer, nicknames, roles, objectives);
     }
 
     [PunRPC]
-    public void SynchRoles(string[] nicknames, string[] roles) {
+    public void SynchRoles(string[] nicknames, string[] roles, string[] objectives) {
         getAllPlayers();
         for (int i = 0; i < roles.Length; i++) {
             foreach (PlayerController player in Players) {
                 if (player.photonView.Owner.NickName.Equals(nicknames[i])) {
                     Debug.Log("Moderator RPC: setting "+player.photonView.Owner.NickName+" to role "+roles[i]);
-                    player.SetRole(roles[i]);
+                    player.SetRole(roles[i], objectives[i]);
                     player.updateUI();
                 }
             }

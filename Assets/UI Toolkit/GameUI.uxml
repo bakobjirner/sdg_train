@@ -1,6 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement name="info_container" style="position: absolute; bottom: 0; right: auto; width: 30%; height: 15%; left: 1%;">
-        <ui:Label name="Role" text="Role" display-tooltip-when-elided="true" />
         <ui:VisualElement name="HealthBarContainer" style="width: 100%; height: 20%; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; -unity-background-image-tint-color: rgb(255, 0, 0); background-image: none; overflow: hidden; background-color: rgba(255, 255, 255, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
             <ui:VisualElement name="HealthBar" style="overflow: visible; width: 100%; height: 100%; background-color: rgb(255, 0, 0); border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
             <ui:Label text="100" display-tooltip-when-elided="true" name="HealthText" style="position: absolute; left: 50%; top: 50%; translate: -50% -50%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
@@ -8,6 +7,8 @@
         <ui:VisualElement name="StaminaBarContainer" style="width: 100%; height: 20%; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; -unity-background-image-tint-color: rgb(255, 0, 0); background-image: none; overflow: hidden; background-color: rgba(255, 255, 255, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); margin-top: 3%;">
             <ui:VisualElement name="StaminaBar" style="overflow: visible; width: 100%; height: 100%; background-color: rgb(255, 191, 0); border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
         </ui:VisualElement>
+        <ui:Label name="Role" text="Role" display-tooltip-when-elided="true" />
+        <ui:Label name="Objective" text="Objective" display-tooltip-when-elided="true" />
     </ui:VisualElement>
     <ui:ProgressBar name="fire_status_bar" style="background-color: rgba(255, 0, 236, 0); color: rgb(0, 255, 4); opacity: 1; display: flex; visibility: visible;" />
 </ui:UXML>

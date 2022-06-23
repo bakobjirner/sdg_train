@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class GameUI : MonoBehaviour
     private VisualElement StaminaBar;
     private ProgressBar progressBar;
     private VisualElement infoContainer;
+    private VisualElement inventoryContainer;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +24,14 @@ public class GameUI : MonoBehaviour
         StaminaBar = root.Q<VisualElement>("StaminaBar");
         progressBar = root.Q<ProgressBar>("fire_status_bar");
         infoContainer = root.Q<VisualElement>("info_container");
+        inventoryContainer = root.Q<VisualElement>("inventoryContainer");
+
         setVisibility(false);
+    }
+
+    private void Update()
+    {
+        
     }
 
     public void setHealth(float health)
@@ -49,5 +58,22 @@ public class GameUI : MonoBehaviour
     {
         progressBar.visible = visibility;
         infoContainer.visible = visibility;
+    }
+
+    public void AddToInventory(string name)
+    {
+        Label newInventoryLabel = new Label(name);
+        newInventoryLabel.AddToClassList("unselectedItem");
+        inventoryContainer.Add(newInventoryLabel);
+    }
+
+    public void SetInventory(int indexBefore, int newIndex)
+    {
+        VisualElement selectedItem = inventoryContainer.ElementAt(indexBefore);
+        selectedItem.RemoveFromClassList("selectedItem");
+        selectedItem.AddToClassList("unselectedItem");
+        VisualElement item = inventoryContainer.ElementAt(newIndex);
+        item.AddToClassList("selectedItem");
+        item.RemoveFromClassList("unselectedItem");
     }
 }

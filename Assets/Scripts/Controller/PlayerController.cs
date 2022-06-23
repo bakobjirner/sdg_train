@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     public Role role;
     public Moderator moderator;
-    private GameObject uiGameObject;
+    public GameObject uiGameObject;
     public Camera PlayerCamera;
     public float health = 1.0f;
     public float stamina = 1.0f;
@@ -30,6 +30,10 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     Vector3 direction;  
     float rotationX;
+    
+    public List<string> inventory = new List<string>();
+    public int inventorySelectedItem = 0;
+    public GameObject rightHand;
 
     void Awake() {
         if (photonView.IsMine) {
@@ -64,6 +68,15 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             Debug.Log("init Player, i am ActorNumber" + ActorNumber);
             Cursor.lockState = CursorLockMode.Locked;
             nickName = PhotonNetwork.LocalPlayer.NickName;
+            // AddItemToInventory("Pistol", Equipment);
+            AddItemToInventory("Hands");
+            AddItemToInventory("Gun");
+            AddItemToInventory("Shovel");
+            // Set the UI
+            uiGameObject.GetComponent<GameUI>().SetInventory(0, 0);
+            // Enable current Item
+            rightHand.transform.Find(inventory[0]).gameObject.SetActive(true);
+            PlayerCamera.transform.Find(inventory[0] + "_Overlay").gameObject.SetActive(true);
         }
         Debug.Log(moderator is null);
     }
@@ -125,7 +138,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             direction += transform.up*1.5f;
             characterAnimator.SetTrigger("Jump");
         }
-        if (Input.GetKey(KeyCode.Mouse0)) {
+        if (Input.GetButtonDown("Fire1") && inventory[inventorySelectedItem] == "Gun") {
+            characterAnimator.SetTrigger("Shoot");
             ShootGun();
         }
         // Rotate Camera and Player
@@ -135,6 +149,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             PlayerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * 3f, 0);
         }
+        HandleInventoryInput();
     }
 
     void ExecMovement() {
@@ -293,5 +308,68 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             PhotonView.Get(this).RPC("DamagePlayer", RpcTarget.AllViaServer,
                    photonView.Owner.NickName,health*2);
         }
+    }
+
+    void HandleInventoryInput()
+    {
+        var scroll = Input.mouseScrollDelta.y;
+        if (scroll != 0)
+        {
+            int indexBefore = inventorySelectedItem;
+            if (inventory.Count > 1)
+            {
+                if (scroll > 0)
+                {
+                    if (inventorySelectedItem == 0)
+                    {
+                        inventorySelectedItem = inventory.Count - 1;
+                    }
+                    else
+                    {
+                        inventorySelectedItem--;
+                    }
+                } 
+                else if (scroll < 0)
+                {
+                    if (inventorySelectedItem == inventory.Count - 1)
+                    {
+                        inventorySelectedItem = 0;
+                    }
+                    else
+                    {
+                        inventorySelectedItem++;
+                    }
+                }
+                SelectItem(indexBefore, inventorySelectedItem);
+            }
+        }
+    }
+
+    void SelectItem(int previousItem, int itemToSelect)
+    {
+        // Set the UI
+        uiGameObject.GetComponent<GameUI>().SetInventory(previousItem, itemToSelect);
+        // Disable previous Item
+        rightHand.transform.Find(inventory[previousItem]).gameObject.SetActive(false);
+        PlayerCamera.transform.Find(inventory[previousItem] + "_Overlay").gameObject.SetActive(false);
+        // Enable current Item
+        rightHand.transform.Find(inventory[itemToSelect]).gameObject.SetActive(true);
+        PlayerCamera.transform.Find(inventory[itemToSelect] + "_Overlay").gameObject.SetActive(true);
+        // Change on other instances
+        photonView.RPC("ChangeItem", RpcTarget.AllBuffered, inventory[previousItem], inventory[itemToSelect]);
+    }
+
+    [PunRPC]
+    void ChangeItem(string previousItem, string itemToSelect)
+    {
+        rightHand.transform.Find(previousItem).gameObject.SetActive(false);
+        rightHand.transform.Find(itemToSelect).gameObject.SetActive(true);
+    }
+
+    void AddItemToInventory(string name)
+    {
+        inventory.Add(name);
+        GameUI ui = uiGameObject.GetComponent<GameUI>();
+        ui.AddToInventory(name);
     }
 }

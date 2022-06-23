@@ -35,6 +35,11 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public int inventorySelectedItem = 0;
     public GameObject rightHand;
 
+    // clip parts of the player model
+    public GameObject beard;
+    public GameObject hair;
+
+
     void Awake() {
         if (photonView.IsMine) {
             PlayerController.LocalPlayerInstance = this.gameObject;
@@ -47,6 +52,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             uiGameObject.GetComponent<GameUI>().setVisibility(true);
             // disable player mesh
             // playerMesh.enabled = false;
+            beard.layer = LayerMask.NameToLayer("Equipment_Player");
+            hair.layer = LayerMask.NameToLayer("Equipment_Player");
         }
         DontDestroyOnLoad(this.gameObject);
     }
@@ -145,7 +152,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         // Rotate Camera and Player
         if (Cursor.lockState == CursorLockMode.Locked) {
             rotationX += -Input.GetAxis("Mouse Y") * 3f;
-            rotationX = Mathf.Clamp(rotationX, -85.0f, 85.0f);
+            rotationX = Mathf.Clamp(rotationX, -85.0f, 51.5f);
             PlayerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * 3f, 0);
         }

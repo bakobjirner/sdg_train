@@ -18,6 +18,7 @@ public class Fire : Interactable
     {
         value = maxValue;
         uiGameObject = GameObject.FindGameObjectWithTag("game_ui");
+        burnrate = 0.01f;
     }
     public override void hover(Transform player)
     {

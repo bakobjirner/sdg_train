@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Photon.Pun;
+using TMPro;
 
 public class Moderator : MonoBehaviourPunCallbacks
 {
@@ -55,7 +56,7 @@ public class Moderator : MonoBehaviourPunCallbacks
                     photonView.RPC("fireEvent", RpcTarget.AllViaServer, "Event_Tunnel");
                     EventCounter++;
                 } else {
-                    // trigger the end-of-game event
+                    trigger the end-of-game event
                     photonView.RPC("fireEvent", RpcTarget.AllViaServer, "Event_Station");
                 }
             }
@@ -98,6 +99,27 @@ public class Moderator : MonoBehaviourPunCallbacks
         UI.SetActive(false);
         AudioTracks_Instance.GetComponent<AudioSource>().mute = true;
         AudioTheme_Instance = Instantiate(AudioTheme, new Vector3(0,0,0), Quaternion.identity);
+        string summary = "Summary:";
+        foreach(PlayerController player in Players) {
+            summary += "\n"+player.photonView.Owner.NickName+" was a "+player.role.getRole();
+            switch (player.role.getRole()) {
+                case "Murderer":
+                    summary += "";
+                    break;
+                case "Security":
+                    summary += "";
+                    break;
+                case "Saboteur":
+                    summary += "";
+                    break;
+                case "Passenger":
+                    summary += " ";
+                    break;
+            }
+        }
+        // set the billboard to display end of game statistic
+        GameObject StationScreen = GameObject.FindGameObjectWithTag("station_screen");
+        StationScreen.GetComponentInChildren<TextMeshPro>().text = summary;
         // todo: gracefully quit game
     }
 

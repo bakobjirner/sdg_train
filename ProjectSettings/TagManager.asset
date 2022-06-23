@@ -12,6 +12,7 @@ TagManager:
   - train
   - landscape
   - animator_wheels
+  - station_screen
   layers:
   - Default
   - TransparentFX

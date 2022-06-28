@@ -8,6 +8,8 @@ public class AppearanceGenerator : MonoBehaviourPun
     public SkinnedMeshRenderer character;
     public SkinnedMeshRenderer beard;
     public SkinnedMeshRenderer hair;
+    private int textureIndexCharacter;
+    private int textureIndexHairAndBeard;
 
     public Texture[] availableHairAndBeards;
     public Texture[] availableCharacterVariants;
@@ -16,9 +18,9 @@ public class AppearanceGenerator : MonoBehaviourPun
         if (photonView.IsMine)
         {
             // Character Variation
-            var textureIndexCharacter = Random.Range(0, availableCharacterVariants.Length - 1);
+            textureIndexCharacter = Random.Range(0, availableCharacterVariants.Length - 1);
             // Beard and Hair
-            var textureIndexHairAndBeard = Random.Range(0, availableHairAndBeards.Length - 1);
+            textureIndexHairAndBeard = Random.Range(0, availableHairAndBeards.Length - 1);
             
 
             // Set Appearance Locally
@@ -38,17 +40,29 @@ public class AppearanceGenerator : MonoBehaviourPun
 
     void GenerateMaterialAndSetToPlayer(int textureIndexCharacter, int textureIndexHairAndBeard)
     {
+        Material characterMaterial;
+        Material hairAndBeardMaterial;
         // Character Variation
-        Material characterMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        characterMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
         characterMaterial.SetTexture("_BaseMap", availableCharacterVariants[textureIndexCharacter]);
         Material[] characterMaterials = new Material[]{characterMaterial};
         character.materials = characterMaterials;
 
         // Beard and Hair
-        Material hairAndBeardMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        hairAndBeardMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
         hairAndBeardMaterial.SetTexture("_BaseMap", availableHairAndBeards[textureIndexHairAndBeard]);
         Material[] hairAndBeardMaterials = new Material[]{hairAndBeardMaterial};
         beard.materials = hairAndBeardMaterials;
         hair.materials = hairAndBeardMaterials;
+    }
+
+    public int getHairMaterialIndex()
+    {
+        return textureIndexHairAndBeard;
+    }
+    
+    public int getCharacterMaterialIndex()
+    {
+        return textureIndexCharacter;
     }
 }

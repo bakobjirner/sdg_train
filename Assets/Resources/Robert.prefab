@@ -5166,6 +5166,7 @@ MonoBehaviour:
   playerMesh: {fileID: 8516870743421818106}
   gunParticles: {fileID: 7513348780167637295}
   ActorNumber: 0
+  ragdoll: {fileID: 6447576334805072561, guid: 7d0fec6920987c2448ed19dbd7e2b8f1, type: 3}
   inventory: []
   inventorySelectedItem: 0
   rightHand: {fileID: 7832042625111041988}

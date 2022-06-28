@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public int ActorNumber;
     private Color[] colors = { Color.red, Color.green, Color.blue, Color.cyan, Color.yellow, Color.magenta };
     private int myColor = 0;
+    public Ragdoll ragdoll;
 
     Vector3 direction;  
     float rotationX;
@@ -281,9 +282,10 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             }
         }
     }
-    
+
     [PunRPC]
-    private void Die(int viewId){
+    private void Die(int viewId)
+    {
         //Destroy(localPC.uiGameObject);
         //PhotonNetwork.Destroy(PlayerController.LocalPlayerInstance);
         //PUN_Manager.Instance.LeaveRoom();
@@ -301,12 +303,26 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         {
             r.enabled = false;
         }
+
         foreach (SkinnedMeshRenderer r in playerController.GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             r.enabled = false;
         }
-    
-    }   
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            playerController.SetRagdoll();
+        }
+    }
+
+    public void SetRagdoll()
+    {
+        AppearanceGenerator a = this.GetComponent<AppearanceGenerator>();
+        object[] data = { a.getCharacterMaterialIndex(), a.getHairMaterialIndex() };
+        PhotonNetwork.Instantiate(ragdoll.name, transform.position, Quaternion.identity, 0, data);
+    }
+
+
 
     // we can probably move this to RPCs
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

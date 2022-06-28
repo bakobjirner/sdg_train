@@ -256,6 +256,14 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                     100.0f);
             }
         }
+        PhotonView.Get(this).RPC("PlayGunSound", RpcTarget.AllViaServer);
+        
+    }
+
+    [PunRPC]
+    private void PlayGunSound()
+    {
+        this.GetComponent<AudioSource>().Play();
     }
 
     [PunRPC]

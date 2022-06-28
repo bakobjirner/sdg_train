@@ -5445,6 +5445,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 2147483647
+  playerController: {fileID: 429608653650524703}
 --- !u!1 &6384337146430406642
 GameObject:
   m_ObjectHideFlags: 0

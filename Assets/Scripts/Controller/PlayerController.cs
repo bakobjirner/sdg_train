@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public GameObject Equipment_Overlay;
     public Animator characterAnimator;
     public SkinnedMeshRenderer playerMesh;
-
+    public ParticleSystem gunParticles;
     public int ActorNumber;
     private Color[] colors = { Color.red, Color.green, Color.blue, Color.cyan, Color.yellow, Color.magenta };
     private int myColor = 0;
@@ -256,6 +256,15 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                     100.0f);
             }
         }
+        PhotonView.Get(this).RPC("PlayGunSound", RpcTarget.AllViaServer);
+        
+    }
+
+    [PunRPC]
+    private void PlayGunSound()
+    {
+        this.GetComponent<AudioSource>().Play();
+        gunParticles.Play();
     }
 
     [PunRPC]
@@ -268,16 +277,36 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             localPC.health -= dmg;
             updateUI();
             if (localPC.health <= 0.0f) {
-                Debug.Log("and we died");
-                // this is legit horrible code, we need a spectator death mode but i have no time
-                // replace this asap
-                Destroy(localPC.uiGameObject);
-                PhotonNetwork.Destroy(PlayerController.LocalPlayerInstance);
-                PUN_Manager.Instance.LeaveRoom();
-                UnityEngine.Cursor.lockState = CursorLockMode.None;
+                PhotonView.Get(this).RPC("Die", RpcTarget.AllViaServer, localPC.photonView.ViewID);
             }
         }
     }
+    
+    [PunRPC]
+    private void Die(int viewId){
+        //Destroy(localPC.uiGameObject);
+        //PhotonNetwork.Destroy(PlayerController.LocalPlayerInstance);
+        //PUN_Manager.Instance.LeaveRoom();
+        //UnityEngine.Cursor.lockState = CursorLockMode.None;
+        PhotonView v = PhotonNetwork.GetPhotonView(viewId);
+        PlayerController playerController = v.GetComponent<PlayerController>();
+        Debug.Log("died" + playerController.photonView.Owner.NickName);
+        playerController.GetComponent<Rigidbody>().useGravity = false;
+        playerController.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        playerController.GetComponent<Collider>().enabled = false;
+        playerController.inventory = new List<string>();
+        playerController.transform.position = new Vector3(this.transform.position.x, 1.5f,
+            playerController.transform.position.z);
+        foreach (MeshRenderer r in playerController.GetComponentsInChildren<MeshRenderer>())
+        {
+            r.enabled = false;
+        }
+        foreach (SkinnedMeshRenderer r in playerController.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            r.enabled = false;
+        }
+    
+    }   
 
     // we can probably move this to RPCs
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

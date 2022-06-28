@@ -11,6 +11,7 @@ public class InteractionController : MonoBehaviour
 
     private Interactable interactable;
     private const string interactableTag = "interactable";
+    public PlayerController playerController;
 
 
     // Start is called before the first frame update
@@ -32,10 +33,23 @@ public class InteractionController : MonoBehaviour
                 if (hit.collider.CompareTag(interactableTag))
                 {
                     interactable = hit.collider.gameObject.GetComponent<Interactable>();
-                
+
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        interactable.interact();
+                                            
+                        if (hit.collider.gameObject.name == "fire")
+                        {
+                            Debug.Log("name == fire");
+                            if (playerController.inventory[playerController.inventorySelectedItem] == "Shovel")
+                            {
+                                interactable.interact();
+                                Debug.Log("inventory Shobel");
+                            }
+                        }
+                        else
+                        {
+                            interactable.interact();
+                        }
                     }
                     else
                     {

@@ -55,9 +55,10 @@ public class Moderator : MonoBehaviourPunCallbacks
                     // this is where it would be evaluated
                     photonView.RPC("fireEvent", RpcTarget.AllViaServer, "Event_Tunnel");
                     EventCounter++;
-                } else {
+                } else if(EventCounter == EventLimit){
                     // trigger the end-of-game event
                     photonView.RPC("fireEvent", RpcTarget.AllViaServer, "Event_Station");
+                    EventCounter++;
                 }
             }
         }

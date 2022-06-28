@@ -110,17 +110,17 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _colorNoiseFactor: 17.78
-    - _hillSize: 5.42
+    - _hillSize: 4
     - _mountainAmount: 0.141
     - _mountainMax: 1
     - _mountainMin: 0
     - _mountainNoiseFactor: 15.42
     - _mountainSize: 49
     - _noiseZoom: 28.89
-    - _scrollSpeed: 0.075
-    - _trenchSteepness: 0.357
+    - _scrollSpeed: 0
+    - _trenchSteepness: 0.18
     - _trenchSteepnessMountain: 0.07
-    - _trenchWidth: 0.101
+    - _trenchWidth: 0.119
     - _trenchWidthMountain: 0.108
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}

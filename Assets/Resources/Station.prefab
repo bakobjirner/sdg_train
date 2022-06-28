@@ -635,6 +635,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3930913598691783327, guid: cf41c4c54e399934f8368af119ce0bda, type: 3}
+      propertyPath: m_fontSize
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3930913598691783327, guid: cf41c4c54e399934f8368af119ce0bda, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8632189278906192353, guid: cf41c4c54e399934f8368af119ce0bda, type: 3}
       propertyPath: m_Name
       value: stationScreen

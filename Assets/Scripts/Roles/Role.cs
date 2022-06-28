@@ -7,6 +7,10 @@ public class Role
     private string role;
     private string objective;
 
+    public bool alive = true;
+    public string deathReason = "";
+    public bool objectiveComplete = false;
+
     public Role(string role, string objective)
     {
         this.role = role;

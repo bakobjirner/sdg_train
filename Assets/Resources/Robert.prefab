@@ -5097,7 +5097,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!23 &7546807288712273359
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5446,6 +5446,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 2147483647
+  playerController: {fileID: 429608653650524703}
 --- !u!1 &6384337146430406642
 GameObject:
   m_ObjectHideFlags: 0
@@ -5926,7 +5927,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: Jump
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Shoot
   m_SynchronizeLayers:
   - SynchronizeType: 0

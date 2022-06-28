@@ -86,7 +86,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             rightHand.transform.Find(inventory[0]).gameObject.SetActive(true);
             PlayerCamera.transform.Find(inventory[0] + "_Overlay").gameObject.SetActive(true);
         }
-        Debug.Log(moderator is null);
     }
 
     // Update is called once per frame
@@ -142,11 +141,11 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         {
             characterAnimator.SetFloat("Shift", 0);
         }
-        if (Input.GetKey(KeyCode.Space)) {
+        if (Input.GetKey(KeyCode.Space) && this.GetComponent<Rigidbody>().useGravity) {
             direction += transform.up*1.5f;
             characterAnimator.SetTrigger("Jump");
         }
-        if (Input.GetButtonDown("Fire1") && inventory[inventorySelectedItem] == "Gun") {
+        if (Input.GetButtonDown("Fire1") && inventory[inventorySelectedItem] == "Gun" && Cursor.lockState == CursorLockMode.Locked) {
             characterAnimator.SetTrigger("Shoot");
             ShootGun();
         }
@@ -254,7 +253,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                 // Debug.Log(hit.collider.gameObject.GetComponent<PlayerController>().photonView.Owner.NickName);
                 PhotonView.Get(this).RPC("DamagePlayer", RpcTarget.AllViaServer,
                     hit.collider.gameObject.GetComponent<PlayerController>().photonView.Owner.NickName,
-                    100.0f);
+                    100.0f, "shot by "+PlayerController.LocalPlayerInstance.GetComponent<PlayerController>().photonView.Owner.NickName);
             }
         }
         PhotonView.Get(this).RPC("PlayGunSound", RpcTarget.AllViaServer);
@@ -269,7 +268,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     }
 
     [PunRPC]
-    public void DamagePlayer(string nickname, float dmg) {
+    public void DamagePlayer(string nickname, float dmg, string reason) {
         Debug.Log("received RPC DamagePlayer "+nickname);
         PlayerController localPC = PlayerController.LocalPlayerInstance.GetComponent<PlayerController>();
         if (localPC.photonView.Owner.NickName.Equals(nickname)) {
@@ -278,14 +277,13 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             localPC.health -= dmg;
             updateUI();
             if (localPC.health <= 0.0f) {
-                PhotonView.Get(this).RPC("Die", RpcTarget.AllViaServer, localPC.photonView.ViewID);
+                PhotonView.Get(this).RPC("Die", RpcTarget.AllViaServer, localPC.photonView.ViewID, reason);
             }
         }
     }
 
     [PunRPC]
-    private void Die(int viewId)
-    {
+    private void Die(int viewId, string reason){
         //Destroy(localPC.uiGameObject);
         //PhotonNetwork.Destroy(PlayerController.LocalPlayerInstance);
         //PUN_Manager.Instance.LeaveRoom();
@@ -313,6 +311,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         {
             playerController.SetRagdoll();
         }
+          // update role flags for end of game evaluation
+        playerController.role.alive = false;
+        playerController.role.deathReason = reason;
     }
 
     public void SetRagdoll()
@@ -321,8 +322,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         object[] data = { a.getCharacterMaterialIndex(), a.getHairMaterialIndex() };
         PhotonNetwork.Instantiate(ragdoll.name, transform.position, Quaternion.identity, 0, data);
     }
-
-
 
     // we can probably move this to RPCs
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -359,7 +358,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             transform.position.z > maxZ ||
             transform.position.z < minZ){
             PhotonView.Get(this).RPC("DamagePlayer", RpcTarget.AllViaServer,
-                   photonView.Owner.NickName,health*2);
+                   photonView.Owner.NickName,health*2, "fell out of the train");
         }
     }
 

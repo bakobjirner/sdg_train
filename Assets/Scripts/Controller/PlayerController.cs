@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public GameObject Equipment_Overlay;
     public Animator characterAnimator;
     public SkinnedMeshRenderer playerMesh;
-
+    public ParticleSystem gunParticles;
     public int ActorNumber;
     private Color[] colors = { Color.red, Color.green, Color.blue, Color.cyan, Color.yellow, Color.magenta };
     private int myColor = 0;
@@ -264,6 +264,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     private void PlayGunSound()
     {
         this.GetComponent<AudioSource>().Play();
+        gunParticles.Play();
     }
 
     [PunRPC]

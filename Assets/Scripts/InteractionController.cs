@@ -25,19 +25,22 @@ public class InteractionController : MonoBehaviour
         RaycastHit hit;
         Vector3 fwd = transform.TransformDirection(Vector3.forward);
 
-        if(Physics.Raycast(transform.position,fwd,out hit, rayLength,layerMask))
+        if (this.GetComponentInParent<PhotonView>().IsMine)
         {
-            if (hit.collider.CompareTag(interactableTag))
+            if(Physics.Raycast(transform.position,fwd,out hit, rayLength,layerMask))
             {
-                interactable = hit.collider.gameObject.GetComponent<Interactable>();
+                if (hit.collider.CompareTag(interactableTag))
+                {
+                    interactable = hit.collider.gameObject.GetComponent<Interactable>();
                 
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    interactable.interact();
-                }
-                else
-                {
-                    interactable.hover(this.transform);
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        interactable.interact();
+                    }
+                    else
+                    {
+                        interactable.hover(this.transform);
+                    }
                 }
             }
         }

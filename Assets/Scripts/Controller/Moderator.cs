@@ -103,18 +103,58 @@ public class Moderator : MonoBehaviourPunCallbacks
         string summary = "Summary:";
         foreach(PlayerController player in Players) {
             summary += "\n"+player.photonView.Owner.NickName+" was a "+player.role.getRole();
+            if (!player.role.alive) {
+                summary += " and died because they "+player.role.deathReason+".";
+            } else {
+                summary += " and survived the ride.";
+            }
+            Debug.Log(player.photonView.Owner.NickName+" "+player.role.getRole()+" "+ player.role.alive+" "+player.role.deathReason);
             switch (player.role.getRole()) {
                 case "Murderer":
-                    summary += "";
+                    foreach(PlayerController otherPlayer in Players) {
+                        if (!player.nickName.Equals(otherPlayer.nickName)) {
+                            if (!otherPlayer.role.alive) {
+                                // another player died, this satisfies the murderers objetive
+                                player.role.objectiveComplete = true;
+                            }
+                        }
+                    }
+                    if (player.role.objectiveComplete) {
+                        summary += "They helped murder another player.";
+                    } else {
+                        summary += "They failed to murder another player.";
+                    }
                     break;
                 case "Security":
-                    summary += "";
+                    player.role.objectiveComplete = true;
+                    bool killedMurderer = false;
+                    foreach(PlayerController otherPlayer in Players) {
+                        if (!player.nickName.Equals(otherPlayer.nickName)) {
+                            if (!otherPlayer.role.alive) {
+                                // another player died, this fails the securities objective
+                                // except if the other player was a murderer
+                                if (!otherPlayer.role.getRole().Equals("Murderer")) {
+                                    player.role.objectiveComplete = false;
+                                } else {
+                                    killedMurderer = true;
+                                }
+
+                            }
+                        }
+                    }
+                    if (player.role.objectiveComplete && !killedMurderer) {
+                        summary += "No passenger died on the train.";
+                    } else if (player.role.objectiveComplete && killedMurderer) {
+                        summary += "No passenger died on the train and the murderer was disposed of.";
+                    } else {
+                        summary += "They could not prevent the death of a passenger.";
+                    }
                     break;
                 case "Saboteur":
-                    summary += "";
+                    summary += "They could not prevent the train from reaching the station.";
                     break;
                 case "Passenger":
-                    summary += " ";
+                    summary += "";
                     break;
             }
         }
@@ -163,23 +203,29 @@ public class Moderator : MonoBehaviourPunCallbacks
         string[] roles = new string[Players.Length];
         string[] objectives = new string[Players.Length];
         string[] nicknames = new string[Players.Length];
+        bool[] alive = new bool[Players.Length];
+        string[] deathReason = new string[Players.Length];
         for (int i = 0; i < Players.Length; i++) {
             nicknames[i] = Players[i].photonView.Owner.NickName;
             roles[i] = Players[i].role.getRole();
             objectives[i] = Players[i].role.getObjective();
+            alive[i] = Players[i].role.alive;
+            deathReason[i] = Players[i].role.deathReason;
         }
         // gather all player-role-data from the masterclient, then send it to all clients via RPC
-        photonView.RPC("SynchRoles", RpcTarget.AllViaServer, nicknames, roles, objectives);
+        photonView.RPC("SynchRoles", RpcTarget.AllViaServer, nicknames, roles, objectives, alive, deathReason);
     }
 
     [PunRPC]
-    public void SynchRoles(string[] nicknames, string[] roles, string[] objectives) {
+    public void SynchRoles(string[] nicknames, string[] roles, string[] objectives, bool[] alive, string[] deathReason) {
         getAllPlayers();
         for (int i = 0; i < roles.Length; i++) {
             foreach (PlayerController player in Players) {
                 if (player.photonView.Owner.NickName.Equals(nicknames[i])) {
                     Debug.Log("Moderator RPC: setting "+player.photonView.Owner.NickName+" to role "+roles[i]);
                     player.SetRole(roles[i], objectives[i]);
+                    player.role.alive = alive[i];
+                    player.role.deathReason = deathReason[i];
                     player.updateUI();
                 }
             }

@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             characterAnimator.SetFloat("Shift", 0);
         }
         if (Input.GetKey(KeyCode.Space) && this.GetComponent<Rigidbody>().useGravity) {
-            direction += transform.up*1.5f;
+            direction += transform.up;
             characterAnimator.SetTrigger("Jump");
         }
         if (Input.GetButtonDown("Fire1") && inventory[inventorySelectedItem] == "Gun" && Cursor.lockState == CursorLockMode.Locked) {
@@ -314,8 +314,10 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
           // update role flags for end of game evaluation
         playerController.role.alive = false;
         playerController.role.deathReason = reason;
-        GameObject UI = GameObject.FindGameObjectWithTag("game_ui");
-        UI.SetActive(false);
+        if (playerController.Equals(this)) {
+            GameObject UI = GameObject.FindGameObjectWithTag("game_ui");
+            UI.SetActive(false);
+        }
         }
 
     public void SetRagdoll()

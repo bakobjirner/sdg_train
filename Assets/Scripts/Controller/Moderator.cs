@@ -28,7 +28,7 @@ public class Moderator : MonoBehaviourPunCallbacks
 
     // counts the amount of Events that have triggered, terminating the game past a treshold
     private int EventCounter = 0;
-    public int EventLimit = 1;
+    public int EventLimit = 2;
     
     // Start is called before the first frame update
     void Start()

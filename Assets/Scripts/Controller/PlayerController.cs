@@ -314,7 +314,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
           // update role flags for end of game evaluation
         playerController.role.alive = false;
         playerController.role.deathReason = reason;
-    }
+        GameObject UI = GameObject.FindGameObjectWithTag("game_ui");
+        UI.SetActive(false);
+        }
 
     public void SetRagdoll()
     {
